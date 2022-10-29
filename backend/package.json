@@ -7,6 +7,7 @@
     "dev": "strapi develop",
     "start": "strapi start",
     "build": "strapi build",
+    "ts-generate": "strapi ts:generate-types --verbose",
     "strapi": "strapi"
   },
   "dependencies": {
