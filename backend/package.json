@@ -2,7 +2,7 @@
   "name": "books-n-films-backend",
   "private": true,
   "version": "0.1.0",
-  "description": "Strapi backend for the booksNFilms application",
+  "description": "Strapi backend for the books-n-films application",
   "scripts": {
     "dev": "strapi develop",
     "start": "strapi start",
