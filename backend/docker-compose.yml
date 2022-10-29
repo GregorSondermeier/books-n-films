@@ -4,10 +4,11 @@ services:
     container_name: books-n-films-backend
     build: .
     image: books-n-films-backend:latest
-    restart: unless-stopped
+    restart: "no"
     env_file: .env
     environment:
       DATABASE_CLIENT: ${DATABASE_CLIENT}
+      DATABASE_SSL: ${DATABASE_SSL}
       DATABASE_HOST: books-n-films-db
       DATABASE_NAME: ${DATABASE_NAME}
       DATABASE_USERNAME: ${DATABASE_USERNAME}
@@ -20,7 +21,7 @@ services:
       - ./config:/opt/app/config
       - ./src:/opt/app/src
       - ./package.json:/opt/package.json
-      - ./yarn.lock:/opt/yarn.lock
+      - ./package-lock.json:/opt/package-lock.json
       - ./.env:/opt/app/.env
       - ./public/uploads:/opt/app/public/uploads
     ports:
@@ -33,7 +34,7 @@ services:
   books-n-films-db:
     container_name: books-n-films-db
     platform: linux/amd64 #for platform error on Apple M1 chips
-    restart: unless-stopped
+    restart: "no"
     env_file: .env
     image: mariadb:latest
     environment:
