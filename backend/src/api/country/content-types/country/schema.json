@@ -1,0 +1,46 @@
+{
+  "kind": "collectionType",
+  "collectionName": "countries",
+  "info": {
+    "singularName": "country",
+    "pluralName": "countries",
+    "displayName": "Countries",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "films": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::film.film",
+      "inversedBy": "countries"
+    },
+    "books": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::book.book",
+      "inversedBy": "countries"
+    },
+    "filmVersions": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::film-version.film-version",
+      "mappedBy": "country"
+    },
+    "alpha2Code": {
+      "type": "string",
+      "required": true,
+      "maxLength": 2,
+      "minLength": 2
+    },
+    "alpha3Code": {
+      "type": "string",
+      "required": true,
+      "maxLength": 3,
+      "minLength": 3
+    }
+  }
+}

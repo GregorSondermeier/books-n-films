@@ -1,0 +1,53 @@
+{
+  "kind": "collectionType",
+  "collectionName": "film_versions",
+  "info": {
+    "singularName": "film-version",
+    "pluralName": "film-versions",
+    "displayName": "FilmVersions",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
+  "attributes": {
+    "medium": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      },
+      "type": "enumeration",
+      "enum": [
+        "Ultra HD Blu-ray",
+        "Blu-ray",
+        "HD-DVD",
+        "DVD",
+        "TV",
+        "VoD",
+        "LD",
+        "VCD",
+        "VHS"
+      ]
+    },
+    "label": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      },
+      "type": "string"
+    },
+    "country": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::country.country",
+      "inversedBy": "filmVersions"
+    }
+  }
+}

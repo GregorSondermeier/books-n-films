@@ -16,6 +16,8 @@ import {
   IntegerAttribute,
   DecimalAttribute,
   SetMinMax,
+  SetPluginOptions,
+  TextAttribute,
 } from '@strapi/strapi';
 
 export interface AdminPermission extends CollectionTypeSchema {
@@ -386,49 +388,6 @@ export interface PluginUploadFolder extends CollectionTypeSchema {
   };
 }
 
-export interface PluginI18NLocale extends CollectionTypeSchema {
-  info: {
-    singularName: 'locale';
-    pluralName: 'locales';
-    collectionName: 'locales';
-    displayName: 'Locale';
-    description: '';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  pluginOptions: {
-    'content-manager': {
-      visible: false;
-    };
-    'content-type-builder': {
-      visible: false;
-    };
-  };
-  attributes: {
-    name: StringAttribute &
-      SetMinMax<{
-        min: 1;
-        max: 50;
-      }>;
-    code: StringAttribute & UniqueAttribute;
-    createdAt: DateTimeAttribute;
-    updatedAt: DateTimeAttribute;
-    createdBy: RelationAttribute<
-      'plugin::i18n.locale',
-      'oneToOne',
-      'admin::user'
-    > &
-      PrivateAttribute;
-    updatedBy: RelationAttribute<
-      'plugin::i18n.locale',
-      'oneToOne',
-      'admin::user'
-    > &
-      PrivateAttribute;
-  };
-}
-
 export interface PluginUsersPermissionsPermission extends CollectionTypeSchema {
   info: {
     name: 'permission';
@@ -576,6 +535,449 @@ export interface PluginUsersPermissionsUser extends CollectionTypeSchema {
   };
 }
 
+export interface PluginI18NLocale extends CollectionTypeSchema {
+  info: {
+    singularName: 'locale';
+    pluralName: 'locales';
+    collectionName: 'locales';
+    displayName: 'Locale';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: false;
+    };
+    'content-type-builder': {
+      visible: false;
+    };
+  };
+  attributes: {
+    name: StringAttribute &
+      SetMinMax<{
+        min: 1;
+        max: 50;
+      }>;
+    code: StringAttribute & UniqueAttribute;
+    createdAt: DateTimeAttribute;
+    updatedAt: DateTimeAttribute;
+    createdBy: RelationAttribute<
+      'plugin::i18n.locale',
+      'oneToOne',
+      'admin::user'
+    > &
+      PrivateAttribute;
+    updatedBy: RelationAttribute<
+      'plugin::i18n.locale',
+      'oneToOne',
+      'admin::user'
+    > &
+      PrivateAttribute;
+  };
+}
+
+export interface ApiBookBook extends CollectionTypeSchema {
+  info: {
+    singularName: 'book';
+    pluralName: 'books';
+    displayName: 'Books';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    title: StringAttribute &
+      SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    originalTitle: StringAttribute &
+      SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    internationalTitle: StringAttribute &
+      SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    synopsis: TextAttribute &
+      SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    authors: RelationAttribute<
+      'api::book.book',
+      'manyToMany',
+      'api::person.person'
+    >;
+    countries: RelationAttribute<
+      'api::book.book',
+      'manyToMany',
+      'api::country.country'
+    >;
+    createdAt: DateTimeAttribute;
+    updatedAt: DateTimeAttribute;
+    createdBy: RelationAttribute<'api::book.book', 'oneToOne', 'admin::user'> &
+      PrivateAttribute;
+    updatedBy: RelationAttribute<'api::book.book', 'oneToOne', 'admin::user'> &
+      PrivateAttribute;
+    localizations: RelationAttribute<
+      'api::book.book',
+      'oneToMany',
+      'api::book.book'
+    >;
+    locale: StringAttribute;
+  };
+}
+
+export interface ApiCountryCountry extends CollectionTypeSchema {
+  info: {
+    singularName: 'country';
+    pluralName: 'countries';
+    displayName: 'Countries';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    films: RelationAttribute<
+      'api::country.country',
+      'manyToMany',
+      'api::film.film'
+    >;
+    books: RelationAttribute<
+      'api::country.country',
+      'manyToMany',
+      'api::book.book'
+    >;
+    filmVersions: RelationAttribute<
+      'api::country.country',
+      'oneToMany',
+      'api::film-version.film-version'
+    >;
+    alpha2Code: StringAttribute &
+      RequiredAttribute &
+      SetMinMaxLength<{
+        minLength: 2;
+        maxLength: 2;
+      }>;
+    alpha3Code: StringAttribute &
+      RequiredAttribute &
+      SetMinMaxLength<{
+        minLength: 3;
+        maxLength: 3;
+      }>;
+    createdAt: DateTimeAttribute;
+    updatedAt: DateTimeAttribute;
+    createdBy: RelationAttribute<
+      'api::country.country',
+      'oneToOne',
+      'admin::user'
+    > &
+      PrivateAttribute;
+    updatedBy: RelationAttribute<
+      'api::country.country',
+      'oneToOne',
+      'admin::user'
+    > &
+      PrivateAttribute;
+  };
+}
+
+export interface ApiFilmFilm extends CollectionTypeSchema {
+  info: {
+    singularName: 'film';
+    pluralName: 'films';
+    displayName: 'Films';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    title: StringAttribute &
+      RequiredAttribute &
+      SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    originalTitle: StringAttribute &
+      SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    internationalTitle: StringAttribute &
+      SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    year: IntegerAttribute &
+      SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    synopsis: TextAttribute &
+      SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    directors: RelationAttribute<
+      'api::film.film',
+      'manyToMany',
+      'api::person.person'
+    >;
+    actors: RelationAttribute<
+      'api::film.film',
+      'manyToMany',
+      'api::person.person'
+    >;
+    producers: RelationAttribute<
+      'api::film.film',
+      'manyToMany',
+      'api::person.person'
+    >;
+    productionStudios: RelationAttribute<
+      'api::film.film',
+      'manyToMany',
+      'api::studio.studio'
+    >;
+    countries: RelationAttribute<
+      'api::film.film',
+      'manyToMany',
+      'api::country.country'
+    >;
+    distributionStudios: RelationAttribute<
+      'api::film.film',
+      'manyToMany',
+      'api::studio.studio'
+    >;
+    createdAt: DateTimeAttribute;
+    updatedAt: DateTimeAttribute;
+    createdBy: RelationAttribute<'api::film.film', 'oneToOne', 'admin::user'> &
+      PrivateAttribute;
+    updatedBy: RelationAttribute<'api::film.film', 'oneToOne', 'admin::user'> &
+      PrivateAttribute;
+    localizations: RelationAttribute<
+      'api::film.film',
+      'oneToMany',
+      'api::film.film'
+    >;
+    locale: StringAttribute;
+  };
+}
+
+export interface ApiFilmVersionFilmVersion extends CollectionTypeSchema {
+  info: {
+    singularName: 'film-version';
+    pluralName: 'film-versions';
+    displayName: 'FilmVersions';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    medium: EnumerationAttribute<
+      [
+        'Ultra HD Blu-ray',
+        'Blu-ray',
+        'HD-DVD',
+        'DVD',
+        'TV',
+        'VoD',
+        'LD',
+        'VCD',
+        'VHS'
+      ]
+    > &
+      SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    label: StringAttribute &
+      SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    country: RelationAttribute<
+      'api::film-version.film-version',
+      'manyToOne',
+      'api::country.country'
+    >;
+    createdAt: DateTimeAttribute;
+    updatedAt: DateTimeAttribute;
+    publishedAt: DateTimeAttribute;
+    createdBy: RelationAttribute<
+      'api::film-version.film-version',
+      'oneToOne',
+      'admin::user'
+    > &
+      PrivateAttribute;
+    updatedBy: RelationAttribute<
+      'api::film-version.film-version',
+      'oneToOne',
+      'admin::user'
+    > &
+      PrivateAttribute;
+    localizations: RelationAttribute<
+      'api::film-version.film-version',
+      'oneToMany',
+      'api::film-version.film-version'
+    >;
+    locale: StringAttribute;
+  };
+}
+
+export interface ApiPersonPerson extends CollectionTypeSchema {
+  info: {
+    singularName: 'person';
+    pluralName: 'people';
+    displayName: 'People';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    displayName: StringAttribute;
+    firstName: StringAttribute;
+    familyName: StringAttribute;
+    directedFilms: RelationAttribute<
+      'api::person.person',
+      'manyToMany',
+      'api::film.film'
+    >;
+    actedFilms: RelationAttribute<
+      'api::person.person',
+      'manyToMany',
+      'api::film.film'
+    >;
+    producedFilms: RelationAttribute<
+      'api::person.person',
+      'manyToMany',
+      'api::film.film'
+    >;
+    writtenBooks: RelationAttribute<
+      'api::person.person',
+      'manyToMany',
+      'api::book.book'
+    >;
+    createdAt: DateTimeAttribute;
+    updatedAt: DateTimeAttribute;
+    createdBy: RelationAttribute<
+      'api::person.person',
+      'oneToOne',
+      'admin::user'
+    > &
+      PrivateAttribute;
+    updatedBy: RelationAttribute<
+      'api::person.person',
+      'oneToOne',
+      'admin::user'
+    > &
+      PrivateAttribute;
+  };
+}
+
+export interface ApiPublisherPublisher extends CollectionTypeSchema {
+  info: {
+    singularName: 'publisher';
+    pluralName: 'publishers';
+    displayName: 'Publishers';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    displayName: StringAttribute & RequiredAttribute;
+    createdAt: DateTimeAttribute;
+    updatedAt: DateTimeAttribute;
+    createdBy: RelationAttribute<
+      'api::publisher.publisher',
+      'oneToOne',
+      'admin::user'
+    > &
+      PrivateAttribute;
+    updatedBy: RelationAttribute<
+      'api::publisher.publisher',
+      'oneToOne',
+      'admin::user'
+    > &
+      PrivateAttribute;
+  };
+}
+
+export interface ApiStudioStudio extends CollectionTypeSchema {
+  info: {
+    singularName: 'studio';
+    pluralName: 'studios';
+    displayName: 'Studios';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    displayName: StringAttribute;
+    producedFilms: RelationAttribute<
+      'api::studio.studio',
+      'manyToMany',
+      'api::film.film'
+    >;
+    distributedFilms: RelationAttribute<
+      'api::studio.studio',
+      'manyToMany',
+      'api::film.film'
+    >;
+    createdAt: DateTimeAttribute;
+    updatedAt: DateTimeAttribute;
+    createdBy: RelationAttribute<
+      'api::studio.studio',
+      'oneToOne',
+      'admin::user'
+    > &
+      PrivateAttribute;
+    updatedBy: RelationAttribute<
+      'api::studio.studio',
+      'oneToOne',
+      'admin::user'
+    > &
+      PrivateAttribute;
+  };
+}
+
 declare global {
   namespace Strapi {
     interface Schemas {
@@ -586,10 +988,17 @@ declare global {
       'admin::api-token-permission': AdminApiTokenPermission;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
-      'plugin::i18n.locale': PluginI18NLocale;
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
+      'plugin::i18n.locale': PluginI18NLocale;
+      'api::book.book': ApiBookBook;
+      'api::country.country': ApiCountryCountry;
+      'api::film.film': ApiFilmFilm;
+      'api::film-version.film-version': ApiFilmVersionFilmVersion;
+      'api::person.person': ApiPersonPerson;
+      'api::publisher.publisher': ApiPublisherPublisher;
+      'api::studio.studio': ApiStudioStudio;
     }
   }
 }
