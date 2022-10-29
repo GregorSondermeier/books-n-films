@@ -13,7 +13,8 @@ To run both MariaDB and Strapi locally in a docker container, do the following:
 1. Install & configure docker
 2. Set up _.env_ file by copying [.env.example](.env.example) to _.env_  
   values can be retrieved from the project's admin
-3. run `docker-compose up`
+3. run `docker compose build books-n-films-backend` if required
+4. run `docker-compose up` to start the database and the Strapi backend application
 
 ## 🚀 Getting started with Strapi
 
