@@ -9,12 +9,11 @@
     "build": "strapi build",
     "strapi": "strapi"
   },
-  "devDependencies": {},
   "dependencies": {
-    "@strapi/strapi": "4.4.5",
-    "@strapi/plugin-users-permissions": "4.4.5",
     "@strapi/plugin-i18n": "4.4.5",
-    "better-sqlite3": "7.4.6"
+    "@strapi/plugin-users-permissions": "4.4.5",
+    "@strapi/strapi": "4.4.5",
+    "mysql": "^2.18.1"
   },
   "author": {
     "name": "Gregor Sondermeier"
