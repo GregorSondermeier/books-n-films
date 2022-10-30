@@ -39,6 +39,11 @@ There you will also find how to
 [populate and select fields](https://docs.strapi.io/developer-docs/latest/developer-resources/database-apis-reference/rest/populating-fields.html),
 [sort and paginate](https://docs.strapi.io/developer-docs/latest/developer-resources/database-apis-reference/rest/sort-pagination.html).
 
+**Note:**  
+[strapi-plugin-transformer](https://market.strapi.io/plugins/strapi-plugin-transformer)
+is used to reduce the depth of API responses. There are no `data` and
+`attributes` fields in the REST API's responses.
+
 #### Public APIs
 
 `/api/books`  
