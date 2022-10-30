@@ -4,7 +4,7 @@
   "info": {
     "singularName": "studio",
     "pluralName": "studios",
-    "displayName": "Studios",
+    "displayName": "Studio",
     "description": ""
   },
   "options": {
@@ -13,7 +13,8 @@
   "pluginOptions": {},
   "attributes": {
     "displayName": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "producedFilms": {
       "type": "relation",

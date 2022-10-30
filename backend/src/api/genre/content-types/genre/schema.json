@@ -4,7 +4,8 @@
   "info": {
     "singularName": "genre",
     "pluralName": "genres",
-    "displayName": "Genres"
+    "displayName": "Genre",
+    "description": ""
   },
   "options": {
     "draftAndPublish": false
@@ -13,11 +14,13 @@
   "attributes": {
     "title": {
       "type": "string",
-      "unique": true
+      "unique": true,
+      "required": true
     },
     "slug": {
       "type": "uid",
-      "targetField": "title"
+      "targetField": "title",
+      "required": true
     },
     "books": {
       "type": "relation",

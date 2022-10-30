@@ -4,7 +4,7 @@
   "info": {
     "singularName": "film-set",
     "pluralName": "film-sets",
-    "displayName": "FilmSets"
+    "displayName": "FilmSet"
   },
   "options": {
     "draftAndPublish": false

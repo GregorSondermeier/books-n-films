@@ -4,7 +4,7 @@
   "info": {
     "singularName": "film-version",
     "pluralName": "film-versions",
-    "displayName": "FilmVersions",
+    "displayName": "FilmVersion",
     "description": ""
   },
   "options": {
@@ -33,8 +33,11 @@
         "ld",
         "vcd",
         "vhs",
-        "other"
-      ]
+        "other",
+        "unknown"
+      ],
+      "default": "unknown",
+      "required": true
     },
     "label": {
       "pluginOptions": {
@@ -42,7 +45,8 @@
           "localized": false
         }
       },
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "country": {
       "type": "relation",
@@ -74,8 +78,11 @@
         "mediabook",
         "steelbook",
         "tinbox",
-        "other"
-      ]
+        "other",
+        "unknown"
+      ],
+      "default": "unknown",
+      "required": true
     },
     "edition": {
       "pluginOptions": {
@@ -89,6 +96,18 @@
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::film-set.film-set",
+      "inversedBy": "filmVersions"
+    },
+    "film": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::film.film",
+      "inversedBy": "versions"
+    },
+    "rating": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::rating.rating",
       "inversedBy": "filmVersions"
     }
   }

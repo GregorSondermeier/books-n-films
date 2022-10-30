@@ -4,7 +4,7 @@
   "info": {
     "singularName": "my-book-version",
     "pluralName": "my-book-versions",
-    "displayName": "MyBookVersions",
+    "displayName": "MyBookVersion",
     "description": ""
   },
   "options": {

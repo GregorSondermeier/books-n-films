@@ -20,6 +20,7 @@ import {
   TextAttribute,
   RichTextAttribute,
   UIDAttribute,
+  DateAttribute,
   SingleTypeSchema,
 } from '@strapi/strapi';
 
@@ -521,6 +522,31 @@ export interface PluginUsersPermissionsUser extends CollectionTypeSchema {
       'manyToOne',
       'plugin::users-permissions.role'
     >;
+    myBooks: RelationAttribute<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::my-book.my-book'
+    >;
+    myBookVersions: RelationAttribute<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::my-book-version.my-book-version'
+    >;
+    myFilms: RelationAttribute<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::my-film.my-film'
+    >;
+    myFilmVersions: RelationAttribute<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::my-film-version.my-film-version'
+    >;
+    myPositions: RelationAttribute<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::my-position.my-position'
+    >;
     createdAt: DateTimeAttribute;
     updatedAt: DateTimeAttribute;
     createdBy: RelationAttribute<
@@ -585,8 +611,8 @@ export interface ApiBookBook extends CollectionTypeSchema {
   info: {
     singularName: 'book';
     pluralName: 'books';
-    displayName: 'Books';
-    description: 'Description of books';
+    displayName: 'Book';
+    description: '';
   };
   options: {
     draftAndPublish: false;
@@ -598,6 +624,7 @@ export interface ApiBookBook extends CollectionTypeSchema {
   };
   attributes: {
     title: StringAttribute &
+      RequiredAttribute &
       SetPluginOptions<{
         i18n: {
           localized: true;
@@ -656,6 +683,11 @@ export interface ApiBookBook extends CollectionTypeSchema {
       'api::book.book',
       'manyToMany',
       'api::book-series.book-series'
+    >;
+    versions: RelationAttribute<
+      'api::book.book',
+      'oneToMany',
+      'api::book-version.book-version'
     >;
     createdAt: DateTimeAttribute;
     updatedAt: DateTimeAttribute;
@@ -726,7 +758,7 @@ export interface ApiBookSetBookSet extends CollectionTypeSchema {
   info: {
     singularName: 'book-set';
     pluralName: 'book-sets';
-    displayName: 'BookSets';
+    displayName: 'BookSet';
   };
   options: {
     draftAndPublish: false;
@@ -759,7 +791,7 @@ export interface ApiBookVersionBookVersion extends CollectionTypeSchema {
   info: {
     singularName: 'book-version';
     pluralName: 'book-versions';
-    displayName: 'BookVersions';
+    displayName: 'BookVersion';
     description: '';
   };
   options: {
@@ -772,14 +804,17 @@ export interface ApiBookVersionBookVersion extends CollectionTypeSchema {
   };
   attributes: {
     medium: EnumerationAttribute<
-      ['hardcover', 'paperback', 'ebook', 'audiobook', 'other']
+      ['hardcover', 'paperback', 'ebook', 'audiobook', 'other', 'unknown']
     > &
+      RequiredAttribute &
       SetPluginOptions<{
         i18n: {
           localized: false;
         };
-      }>;
-    Publisher: StringAttribute &
+      }> &
+      DefaultTo<'unknown'>;
+    publisher: StringAttribute &
+      RequiredAttribute &
       SetPluginOptions<{
         i18n: {
           localized: false;
@@ -800,6 +835,11 @@ export interface ApiBookVersionBookVersion extends CollectionTypeSchema {
       'api::book-version.book-version',
       'manyToOne',
       'api::book-set.book-set'
+    >;
+    book: RelationAttribute<
+      'api::book-version.book-version',
+      'manyToOne',
+      'api::book.book'
     >;
     createdAt: DateTimeAttribute;
     updatedAt: DateTimeAttribute;
@@ -828,7 +868,7 @@ export interface ApiCountryCountry extends CollectionTypeSchema {
   info: {
     singularName: 'country';
     pluralName: 'countries';
-    displayName: 'Countries';
+    displayName: 'Country';
     description: '';
   };
   options: {
@@ -888,7 +928,7 @@ export interface ApiFilmFilm extends CollectionTypeSchema {
   info: {
     singularName: 'film';
     pluralName: 'films';
-    displayName: 'Films';
+    displayName: 'Film';
     description: '';
   };
   options: {
@@ -981,6 +1021,11 @@ export interface ApiFilmFilm extends CollectionTypeSchema {
       'manyToMany',
       'api::genre.genre'
     >;
+    versions: RelationAttribute<
+      'api::film.film',
+      'oneToMany',
+      'api::film-version.film-version'
+    >;
     createdAt: DateTimeAttribute;
     updatedAt: DateTimeAttribute;
     createdBy: RelationAttribute<'api::film.film', 'oneToOne', 'admin::user'> &
@@ -1050,7 +1095,7 @@ export interface ApiFilmSetFilmSet extends CollectionTypeSchema {
   info: {
     singularName: 'film-set';
     pluralName: 'film-sets';
-    displayName: 'FilmSets';
+    displayName: 'FilmSet';
   };
   options: {
     draftAndPublish: false;
@@ -1083,7 +1128,7 @@ export interface ApiFilmVersionFilmVersion extends CollectionTypeSchema {
   info: {
     singularName: 'film-version';
     pluralName: 'film-versions';
-    displayName: 'FilmVersions';
+    displayName: 'FilmVersion';
     description: '';
   };
   options: {
@@ -1106,15 +1151,19 @@ export interface ApiFilmVersionFilmVersion extends CollectionTypeSchema {
         'ld',
         'vcd',
         'vhs',
-        'other'
+        'other',
+        'unknown'
       ]
     > &
+      RequiredAttribute &
       SetPluginOptions<{
         i18n: {
           localized: false;
         };
-      }>;
+      }> &
+      DefaultTo<'unknown'>;
     label: StringAttribute &
+      RequiredAttribute &
       SetPluginOptions<{
         i18n: {
           localized: false;
@@ -1141,14 +1190,17 @@ export interface ApiFilmVersionFilmVersion extends CollectionTypeSchema {
         'mediabook',
         'steelbook',
         'tinbox',
-        'other'
+        'other',
+        'unknown'
       ]
     > &
+      RequiredAttribute &
       SetPluginOptions<{
         i18n: {
           localized: false;
         };
-      }>;
+      }> &
+      DefaultTo<'unknown'>;
     edition: StringAttribute &
       SetPluginOptions<{
         i18n: {
@@ -1159,6 +1211,16 @@ export interface ApiFilmVersionFilmVersion extends CollectionTypeSchema {
       'api::film-version.film-version',
       'manyToOne',
       'api::film-set.film-set'
+    >;
+    film: RelationAttribute<
+      'api::film-version.film-version',
+      'manyToOne',
+      'api::film.film'
+    >;
+    rating: RelationAttribute<
+      'api::film-version.film-version',
+      'manyToOne',
+      'api::rating.rating'
     >;
     createdAt: DateTimeAttribute;
     updatedAt: DateTimeAttribute;
@@ -1188,14 +1250,15 @@ export interface ApiGenreGenre extends CollectionTypeSchema {
   info: {
     singularName: 'genre';
     pluralName: 'genres';
-    displayName: 'Genres';
+    displayName: 'Genre';
+    description: '';
   };
   options: {
     draftAndPublish: false;
   };
   attributes: {
-    title: StringAttribute & UniqueAttribute;
-    slug: UIDAttribute<'api::genre.genre', 'title'>;
+    title: StringAttribute & RequiredAttribute & UniqueAttribute;
+    slug: UIDAttribute<'api::genre.genre', 'title'> & RequiredAttribute;
     books: RelationAttribute<
       'api::genre.genre',
       'manyToMany',
@@ -1227,7 +1290,7 @@ export interface ApiMyBookMyBook extends CollectionTypeSchema {
   info: {
     singularName: 'my-book';
     pluralName: 'my-books';
-    displayName: 'MyBooks';
+    displayName: 'MyBook';
     description: '';
   };
   options: {
@@ -1246,6 +1309,12 @@ export interface ApiMyBookMyBook extends CollectionTypeSchema {
       'oneToOne',
       'api::my-position.my-position'
     >;
+    user: RelationAttribute<
+      'api::my-book.my-book',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    addedAt: DateAttribute;
     createdAt: DateTimeAttribute;
     updatedAt: DateTimeAttribute;
     createdBy: RelationAttribute<
@@ -1267,7 +1336,7 @@ export interface ApiMyBookVersionMyBookVersion extends CollectionTypeSchema {
   info: {
     singularName: 'my-book-version';
     pluralName: 'my-book-versions';
-    displayName: 'MyBookVersions';
+    displayName: 'MyBookVersion';
     description: '';
   };
   options: {
@@ -1283,11 +1352,12 @@ export interface ApiMyBookVersionMyBookVersion extends CollectionTypeSchema {
     currentValue: DecimalAttribute;
     didRead: BooleanAttribute & DefaultTo<false>;
     wantToRead: BooleanAttribute & DefaultTo<false>;
-    position: RelationAttribute<
+    user: RelationAttribute<
       'api::my-book-version.my-book-version',
-      'oneToOne',
-      'api::my-position.my-position'
+      'manyToOne',
+      'plugin::users-permissions.user'
     >;
+    addedAt: DateAttribute;
     createdAt: DateTimeAttribute;
     updatedAt: DateTimeAttribute;
     createdBy: RelationAttribute<
@@ -1309,7 +1379,7 @@ export interface ApiMyFilmMyFilm extends CollectionTypeSchema {
   info: {
     singularName: 'my-film';
     pluralName: 'my-films';
-    displayName: 'MyFilms';
+    displayName: 'MyFilm';
     description: '';
   };
   options: {
@@ -1328,6 +1398,12 @@ export interface ApiMyFilmMyFilm extends CollectionTypeSchema {
       'oneToOne',
       'api::my-position.my-position'
     >;
+    user: RelationAttribute<
+      'api::my-film.my-film',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    addedAt: DateAttribute;
     createdAt: DateTimeAttribute;
     updatedAt: DateTimeAttribute;
     createdBy: RelationAttribute<
@@ -1349,7 +1425,7 @@ export interface ApiMyFilmVersionMyFilmVersion extends CollectionTypeSchema {
   info: {
     singularName: 'my-film-version';
     pluralName: 'my-film-versions';
-    displayName: 'MyFilmVersions';
+    displayName: 'MyFilmVersion';
     description: '';
   };
   options: {
@@ -1370,6 +1446,12 @@ export interface ApiMyFilmVersionMyFilmVersion extends CollectionTypeSchema {
       'oneToOne',
       'api::my-position.my-position'
     >;
+    user: RelationAttribute<
+      'api::my-film-version.my-film-version',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    addedAt: DateAttribute;
     createdAt: DateTimeAttribute;
     updatedAt: DateTimeAttribute;
     createdBy: RelationAttribute<
@@ -1391,13 +1473,19 @@ export interface ApiMyPositionMyPosition extends CollectionTypeSchema {
   info: {
     singularName: 'my-position';
     pluralName: 'my-positions';
-    displayName: 'MyPositions';
+    displayName: 'MyPosition';
+    description: '';
   };
   options: {
     draftAndPublish: false;
   };
   attributes: {
     title: StringAttribute & RequiredAttribute;
+    user: RelationAttribute<
+      'api::my-position.my-position',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
     createdAt: DateTimeAttribute;
     updatedAt: DateTimeAttribute;
     createdBy: RelationAttribute<
@@ -1419,14 +1507,14 @@ export interface ApiPersonPerson extends CollectionTypeSchema {
   info: {
     singularName: 'person';
     pluralName: 'people';
-    displayName: 'People';
+    displayName: 'Person';
     description: '';
   };
   options: {
     draftAndPublish: false;
   };
   attributes: {
-    displayName: StringAttribute;
+    displayName: StringAttribute & RequiredAttribute;
     firstName: StringAttribute;
     familyName: StringAttribute;
     directedFilms: RelationAttribute<
@@ -1499,13 +1587,19 @@ export interface ApiRatingRating extends CollectionTypeSchema {
   info: {
     singularName: 'rating';
     pluralName: 'ratings';
-    displayName: 'Ratings';
+    displayName: 'Rating';
+    description: '';
   };
   options: {
     draftAndPublish: false;
   };
   attributes: {
-    title: StringAttribute & UniqueAttribute;
+    title: StringAttribute & RequiredAttribute & UniqueAttribute;
+    filmVersions: RelationAttribute<
+      'api::rating.rating',
+      'oneToMany',
+      'api::film-version.film-version'
+    >;
     createdAt: DateTimeAttribute;
     updatedAt: DateTimeAttribute;
     createdBy: RelationAttribute<
@@ -1527,14 +1621,14 @@ export interface ApiStudioStudio extends CollectionTypeSchema {
   info: {
     singularName: 'studio';
     pluralName: 'studios';
-    displayName: 'Studios';
+    displayName: 'Studio';
     description: '';
   };
   options: {
     draftAndPublish: false;
   };
   attributes: {
-    displayName: StringAttribute;
+    displayName: StringAttribute & RequiredAttribute;
     producedFilms: RelationAttribute<
       'api::studio.studio',
       'manyToMany',
@@ -1566,7 +1660,7 @@ export interface ApiTranslationTranslation extends SingleTypeSchema {
   info: {
     singularName: 'translation';
     pluralName: 'translations';
-    displayName: 'Translations';
+    displayName: 'Translation';
   };
   options: {
     draftAndPublish: false;

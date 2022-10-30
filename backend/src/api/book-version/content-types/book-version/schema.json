@@ -4,7 +4,7 @@
   "info": {
     "singularName": "book-version",
     "pluralName": "book-versions",
-    "displayName": "BookVersions",
+    "displayName": "BookVersion",
     "description": ""
   },
   "options": {
@@ -28,16 +28,20 @@
         "paperback",
         "ebook",
         "audiobook",
-        "other"
-      ]
+        "other",
+        "unknown"
+      ],
+      "required": true,
+      "default": "unknown"
     },
-    "Publisher": {
+    "publisher": {
       "pluginOptions": {
         "i18n": {
           "localized": false
         }
       },
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "country": {
       "type": "relation",
@@ -58,6 +62,12 @@
       "relation": "manyToOne",
       "target": "api::book-set.book-set",
       "inversedBy": "bookVersions"
+    },
+    "book": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::book.book",
+      "inversedBy": "versions"
     }
   }
 }

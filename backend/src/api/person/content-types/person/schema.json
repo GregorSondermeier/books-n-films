@@ -4,7 +4,7 @@
   "info": {
     "singularName": "person",
     "pluralName": "people",
-    "displayName": "People",
+    "displayName": "Person",
     "description": ""
   },
   "options": {
@@ -13,7 +13,8 @@
   "pluginOptions": {},
   "attributes": {
     "displayName": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "firstName": {
       "type": "string"
