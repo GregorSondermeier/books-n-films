@@ -84,6 +84,12 @@
         }
       },
       "type": "string"
+    },
+    "filmSet": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::film-set.film-set",
+      "inversedBy": "filmVersions"
     }
   }
 }

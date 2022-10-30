@@ -24,6 +24,12 @@
       "relation": "manyToMany",
       "target": "api::book.book",
       "mappedBy": "genres"
+    },
+    "films": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::film.film",
+      "mappedBy": "genres"
     }
   }
 }

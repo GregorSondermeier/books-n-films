@@ -109,6 +109,12 @@
       "relation": "manyToMany",
       "target": "api::film-series.film-series",
       "inversedBy": "films"
+    },
+    "genres": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::genre.genre",
+      "inversedBy": "films"
     }
   }
 }

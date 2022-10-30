@@ -52,6 +52,12 @@
         }
       },
       "type": "richtext"
+    },
+    "bookSet": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::book-set.book-set",
+      "inversedBy": "bookVersions"
     }
   }
 }
