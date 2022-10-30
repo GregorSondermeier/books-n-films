@@ -1,0 +1,34 @@
+{
+  "kind": "collectionType",
+  "collectionName": "my_films",
+  "info": {
+    "singularName": "my-film",
+    "pluralName": "my-films",
+    "displayName": "MyFilms",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "film": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::film.film"
+    },
+    "didWatch": {
+      "type": "boolean",
+      "default": false
+    },
+    "wantToWatch": {
+      "type": "boolean",
+      "default": false
+    },
+    "position": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::my-position.my-position"
+    }
+  }
+}

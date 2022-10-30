@@ -1,0 +1,34 @@
+{
+  "kind": "collectionType",
+  "collectionName": "my_books",
+  "info": {
+    "singularName": "my-book",
+    "pluralName": "my-books",
+    "displayName": "MyBooks",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "book": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::book.book"
+    },
+    "didRead": {
+      "type": "boolean",
+      "default": false
+    },
+    "wantToWatch": {
+      "type": "boolean",
+      "default": false
+    },
+    "position": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::my-position.my-position"
+    }
+  }
+}

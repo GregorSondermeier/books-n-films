@@ -1,0 +1,43 @@
+{
+  "kind": "singleType",
+  "collectionName": "translations",
+  "info": {
+    "singularName": "translation",
+    "pluralName": "translations",
+    "displayName": "Translations"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
+  "attributes": {
+    "bookVersionMedium": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "json"
+    },
+    "filmVersionMedium": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "json"
+    },
+    "filmVersionPackaging": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "json"
+    }
+  }
+}

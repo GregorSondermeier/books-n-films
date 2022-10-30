@@ -5,7 +5,7 @@
     "singularName": "book",
     "pluralName": "books",
     "displayName": "Books",
-    "description": ""
+    "description": "Description of books"
   },
   "options": {
     "draftAndPublish": false
@@ -59,6 +59,37 @@
       "relation": "manyToMany",
       "target": "api::country.country",
       "mappedBy": "books"
+    },
+    "year": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      },
+      "type": "string",
+      "maxLength": 4,
+      "minLength": 4,
+      "regex": "^[0-9]{4}$"
+    },
+    "genres": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::genre.genre",
+      "inversedBy": "books"
+    },
+    "alternativeTitles": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      },
+      "type": "text"
+    },
+    "seriess": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::book-series.book-series",
+      "inversedBy": "books"
     }
   }
 }

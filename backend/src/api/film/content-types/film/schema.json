@@ -41,14 +41,6 @@
       },
       "type": "string"
     },
-    "year": {
-      "pluginOptions": {
-        "i18n": {
-          "localized": false
-        }
-      },
-      "type": "integer"
-    },
     "synopsis": {
       "pluginOptions": {
         "i18n": {
@@ -92,6 +84,31 @@
       "relation": "manyToMany",
       "target": "api::studio.studio",
       "inversedBy": "distributedFilms"
+    },
+    "year": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      },
+      "type": "string",
+      "maxLength": 4,
+      "minLength": 4,
+      "regex": "^[0-9]{4}$"
+    },
+    "alternativeTitles": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      },
+      "type": "text"
+    },
+    "seriess": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::film-series.film-series",
+      "inversedBy": "films"
     }
   }
 }

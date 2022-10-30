@@ -41,6 +41,12 @@
       "required": true,
       "maxLength": 3,
       "minLength": 3
+    },
+    "bookVersions": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::book-version.book-version",
+      "mappedBy": "country"
     }
   }
 }

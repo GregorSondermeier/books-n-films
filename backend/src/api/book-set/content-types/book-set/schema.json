@@ -1,0 +1,19 @@
+{
+  "kind": "collectionType",
+  "collectionName": "book_sets",
+  "info": {
+    "singularName": "book-set",
+    "pluralName": "book-sets",
+    "displayName": "BookSets"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

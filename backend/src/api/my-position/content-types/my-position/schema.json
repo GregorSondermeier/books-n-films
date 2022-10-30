@@ -1,0 +1,19 @@
+{
+  "kind": "collectionType",
+  "collectionName": "my_positions",
+  "info": {
+    "singularName": "my-position",
+    "pluralName": "my-positions",
+    "displayName": "MyPositions"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

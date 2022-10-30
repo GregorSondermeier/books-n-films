@@ -1,0 +1,19 @@
+{
+  "kind": "collectionType",
+  "collectionName": "film_sets",
+  "info": {
+    "singularName": "film-set",
+    "pluralName": "film-sets",
+    "displayName": "FilmSets"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "kind": "collectionType",
+  "collectionName": "my_book_versions",
+  "info": {
+    "singularName": "my-book-version",
+    "pluralName": "my-book-versions",
+    "displayName": "MyBookVersions",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "bookVersion": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::book-version.book-version"
+    },
+    "buyingPrice": {
+      "type": "decimal"
+    },
+    "currentValue": {
+      "type": "decimal"
+    },
+    "didRead": {
+      "type": "boolean",
+      "default": false
+    },
+    "wantToRead": {
+      "type": "boolean",
+      "default": false
+    },
+    "position": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::my-position.my-position"
+    }
+  }
+}
