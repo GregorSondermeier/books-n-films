@@ -4,7 +4,7 @@ export default {
       // 'ar',
       // 'fr',
       // 'cs',
-      // 'de',
+      'de',
       // 'dk',
       // 'es',
       // 'he',
@@ -29,7 +29,7 @@ export default {
       // 'zh',
     ],
   },
-  bootstrap(app) {
-    console.log(app);
-  },
+  // bootstrap(app) {
+  //   console.log(app);
+  // },
 };
