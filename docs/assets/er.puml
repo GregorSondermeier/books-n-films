@@ -1,0 +1,263 @@
+@startuml
+
+skinparam linetype polyline
+hide empty members
+
+note as id_note
+  all interfaces also
+  have a property
+  `id: number`
+  which is the PK.
+end note
+
+interface Book extends Medium {
+  authors: Person[];
+  seriess: BookSeries[];
+  versions: BookVersion[];
+}
+
+interface BookSeries {
+  title: string;
+  books: Book[];
+}
+
+interface BookSet {
+  title: string;
+  bookVersions: BookVersion[];
+}
+
+interface BookVersion {
+  book: Book;
+  medium: BookVersionMedium;
+  publisher: string;
+  country?: Country;
+  notes?: RichText;
+  bookSet?: BookSet;
+}
+
+enum BookVersionMedium {
+  hardcover
+  paperback
+  ebook
+  audiobook
+  other
+  unknown
+}
+
+interface Country {
+  alpha2Code: string;
+  alpha3Code: string;
+  books: Book[];
+  bookVersions: BookVersion[];
+  films: Film[];
+  filmVersions: FilmVersion[];
+}
+
+interface Film extends Medium {
+  directors: Person[];
+  actors: Person[];
+  producers: Person[];
+  productionStudios: Studio[];
+  distributionStudios: Studio[];
+  seriess: FilmSeries[];
+  versions: FilmVersion[];
+}
+
+interface FilmSeries {
+  title: string;
+  films: Film[];
+}
+
+interface FilmSet {
+  title: string;
+  filmVersions: FilmVersion[];
+}
+
+interface FilmVersion {
+  film: Film;
+  medium: FilmVersionMedium;
+  label: string;
+  country?: Country;
+  notes?: RichText;
+  packaging: FilmVersionPackaging;
+  edition?: string;
+  filmSet?: FilmSet;
+  rating?: Rating;
+}
+
+enum FilmVersionMedium {
+  uhdbluray
+  bluray
+  hddvd
+  dvd
+  tv
+  vod
+  ld
+  vcd
+  vhs
+  other
+  unknown
+}
+
+enum FilmVersionPackaging {
+  softcase
+  digipack
+  hardbox
+  insert
+  metalpak
+  mediabook
+  steelbook
+  tinbox
+  other
+  unknown
+}
+
+interface Genre {
+  title: string;
+  slug: string;
+  books: Book[];
+  films: Film[];
+}
+
+interface Medium {
+  title: string;
+  originalTitle?: string;
+  internationalTitle?: string;
+  alternativeTitles?: string;
+  year?: string;
+  genres: Genre[];
+  countries: Country[];
+  synopsis?: string;
+}
+
+interface MyBook {
+  book: Book;
+  didRead: boolean;
+  wantToRead: boolean;
+  position?: MyPosition;
+  user: User;
+  addedAt?: Date;
+}
+
+interface MyBookVersion {
+  book: Book;
+  buyingPrice?: number;
+  currentValue?: number;
+  didRead: boolean;
+  wantToRead: boolean;
+  position?: MyPosition;
+  user: User;
+  addedAt?: Date;
+}
+
+interface MyFilm {
+  film: Film;
+  didWatch: boolean;
+  wantToWatch: boolean;
+  position?: MyPosition;
+  user: User;
+  addedAt?: Date;
+}
+
+interface MyFilmVersion {
+  film: Film;
+  buyingPrice?: number;
+  currentValue?: number;
+  didWatch: boolean;
+  wantToWatch: boolean;
+  position?: MyPosition;
+  user: User;
+  addedAt?: Date;
+}
+
+interface MyPosition {
+  title: string;
+  user: User;
+}
+
+interface Person {
+  displayName: string;
+  firstName?: string;
+  familyName?: string;
+  directedFilms: Film[];
+  actedFilms: Film[];
+  producedFilms: Film[];
+  writtenBooks: Book[];
+}
+
+interface Rating {
+  title: string;
+  filmVersions: FilmVersion[];
+}
+
+interface Studio {
+  displayName: string;
+  producedFilms: Film[];
+  distributedFilms: Film[];
+}
+
+interface Translation {
+  bookVersionMedium: Record<BookVersionMedium, string>;
+  filmVersionMedium: Record<FilmVersionMedium, string>;
+  filmVersionPackaging: Record<FilmVersionPackaging, string>;
+}
+
+interface User {
+  username: string;
+  email: string;
+  provider?: string;
+  -password?: string;
+  -resetPasswordToken?: string;
+  -confirmationToken?: string;
+  confirmed: boolean;
+  blocked: boolean;
+  myBooks: MyBook[];
+  myBookVersions: MyBookVersion[];
+  myFilms: Film[];
+  myFilmVersions: MyFilmVersion[];
+  myPositions: MyPosition[];
+}
+
+' Medium
+Medium }o---o{ Genre
+Medium }o---o{ Country
+
+' Book
+Book }|---o{ Person
+Book }o---o{ BookSeries
+Book }o---o| BookVersion
+BookVersion |o---o{ Country
+BookVersion |o---o{ BookSet
+BookVersion --- BookVersionMedium
+
+' Film
+Film }|---o{ Person
+Film }o---o{ Studio
+Film }o---|{ FilmSeries
+Film }o---|| FilmVersion
+FilmVersion |o---o{ Country
+FilmVersion |o---o{ Rating
+FilmVersion |o---|{ FilmSet
+FilmVersion --- FilmVersionMedium
+FilmVersion --- FilmVersionPackaging
+
+' MyBook
+Book ---|| MyBook
+MyBook |o--- MyPosition
+BookVersion ---|| MyBookVersion
+MyBookVersion |o--- MyPosition
+
+' MyFilm
+Film ---|| MyFilm
+MyFilm |o--- MyPosition
+FilmVersion ---|| MyFilmVersion
+MyFilmVersion |o--- MyPosition
+
+' User
+MyBook ||---o{ User
+MyBookVersion ||---o{ User
+MyFilm ||---o{ User
+MyFilmVersion ||---o{ User
+MyPosition ||---o{ User
+
+@enduml
