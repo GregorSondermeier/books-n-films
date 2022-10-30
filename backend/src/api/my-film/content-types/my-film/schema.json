@@ -29,6 +29,15 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::my-position.my-position"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "myFilms"
+    },
+    "addedAt": {
+      "type": "date"
     }
   }
 }

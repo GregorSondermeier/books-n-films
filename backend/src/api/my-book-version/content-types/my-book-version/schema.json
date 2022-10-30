@@ -31,10 +31,14 @@
       "type": "boolean",
       "default": false
     },
-    "position": {
+    "user": {
       "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::my-position.my-position"
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "myBookVersions"
+    },
+    "addedAt": {
+      "type": "date"
     }
   }
 }
