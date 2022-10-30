@@ -34,5 +34,20 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.0.0",
     "typescript": "~4.7.2"
-  }
+  },
+  "author": {
+    "name": "Lisa Friedrich"
+  },
+  "contributors": [
+    {
+      "name": "Lisa Friedrich",
+      "email": "lfriedrich41@gmail.com",
+      "url": "https://github.com/lisa-friedrich"
+    },
+    {
+      "name": "Gregor Sondermeier",
+      "email": "gregor.sondermeier.github@gmail.com",
+      "url": "https://github.com/GregorSondermeier"
+    }
+  ],
 }
