@@ -116,10 +116,10 @@
       "target": "api::genre.genre",
       "inversedBy": "films"
     },
-    "versions": {
+    "releases": {
       "type": "relation",
       "relation": "oneToMany",
-      "target": "api::film-version.film-version",
+      "target": "api::film-release.film-release",
       "mappedBy": "film"
     }
   }

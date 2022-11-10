@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "release_collections",
+  "info": {
+    "singularName": "release-collection",
+    "pluralName": "release-collections",
+    "displayName": "ReleaseCollection"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "bookReleases": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::book-release.book-release",
+      "mappedBy": "releaseCollection"
+    },
+    "filmReleases": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::film-release.film-release",
+      "mappedBy": "releaseCollection"
+    }
+  }
+}

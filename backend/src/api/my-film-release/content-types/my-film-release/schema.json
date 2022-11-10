@@ -1,0 +1,49 @@
+{
+  "kind": "collectionType",
+  "collectionName": "my_film_releases",
+  "info": {
+    "singularName": "my-film-release",
+    "pluralName": "my-film-releases",
+    "displayName": "MyFilmRelease",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "filmRelease": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::film-release.film-release"
+    },
+    "buyingPrice": {
+      "type": "decimal"
+    },
+    "currentValue": {
+      "type": "decimal"
+    },
+    "didWatch": {
+      "type": "boolean",
+      "default": false
+    },
+    "wantToWatch": {
+      "type": "boolean",
+      "default": false
+    },
+    "position": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::my-position.my-position"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "myFilmReleases"
+    },
+    "addedAt": {
+      "type": "date"
+    }
+  }
+}

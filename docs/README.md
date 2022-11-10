@@ -49,12 +49,12 @@ is used to reduce the depth of API responses. There are no `data` and
 `/api/books`  
 `/api/book-seriess`  
 `/api/book-sets`  
-`/api/book-sets`  
+`/api/book-releases`  
 `/api/countries`  
 `/api/films`  
 `/api/film-seriess`  
 `/api/film-sets`  
-`/api/film-versions`  
+`/api/film-releases`  
 `/api/genres`  
 `/api/people`  
 `/api/ratings`  
@@ -67,7 +67,7 @@ is used to reduce the depth of API responses. There are no `data` and
 All the above, plus:
 
 `/api/my-books`  
-`/api/my-book-versions`  
+`/api/my-book-releases`  
 `/api/my-films`  
-`/api/my-film-versions`  
+`/api/my-film-releases`  
 `/api/my-positions`

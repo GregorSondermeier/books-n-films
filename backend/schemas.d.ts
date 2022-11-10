@@ -392,6 +392,49 @@ export interface PluginUploadFolder extends CollectionTypeSchema {
   };
 }
 
+export interface PluginI18NLocale extends CollectionTypeSchema {
+  info: {
+    singularName: 'locale';
+    pluralName: 'locales';
+    collectionName: 'locales';
+    displayName: 'Locale';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: false;
+    };
+    'content-type-builder': {
+      visible: false;
+    };
+  };
+  attributes: {
+    name: StringAttribute &
+      SetMinMax<{
+        min: 1;
+        max: 50;
+      }>;
+    code: StringAttribute & UniqueAttribute;
+    createdAt: DateTimeAttribute;
+    updatedAt: DateTimeAttribute;
+    createdBy: RelationAttribute<
+      'plugin::i18n.locale',
+      'oneToOne',
+      'admin::user'
+    > &
+      PrivateAttribute;
+    updatedBy: RelationAttribute<
+      'plugin::i18n.locale',
+      'oneToOne',
+      'admin::user'
+    > &
+      PrivateAttribute;
+  };
+}
+
 export interface PluginUsersPermissionsPermission extends CollectionTypeSchema {
   info: {
     name: 'permission';
@@ -527,20 +570,20 @@ export interface PluginUsersPermissionsUser extends CollectionTypeSchema {
       'oneToMany',
       'api::my-book.my-book'
     >;
-    myBookVersions: RelationAttribute<
+    myBookReleases: RelationAttribute<
       'plugin::users-permissions.user',
       'oneToMany',
-      'api::my-book-version.my-book-version'
+      'api::my-book-release.my-book-release'
     >;
     myFilms: RelationAttribute<
       'plugin::users-permissions.user',
       'oneToMany',
       'api::my-film.my-film'
     >;
-    myFilmVersions: RelationAttribute<
+    myFilmReleases: RelationAttribute<
       'plugin::users-permissions.user',
       'oneToMany',
-      'api::my-film-version.my-film-version'
+      'api::my-film-release.my-film-release'
     >;
     myPositions: RelationAttribute<
       'plugin::users-permissions.user',
@@ -557,49 +600,6 @@ export interface PluginUsersPermissionsUser extends CollectionTypeSchema {
       PrivateAttribute;
     updatedBy: RelationAttribute<
       'plugin::users-permissions.user',
-      'oneToOne',
-      'admin::user'
-    > &
-      PrivateAttribute;
-  };
-}
-
-export interface PluginI18NLocale extends CollectionTypeSchema {
-  info: {
-    singularName: 'locale';
-    pluralName: 'locales';
-    collectionName: 'locales';
-    displayName: 'Locale';
-    description: '';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  pluginOptions: {
-    'content-manager': {
-      visible: false;
-    };
-    'content-type-builder': {
-      visible: false;
-    };
-  };
-  attributes: {
-    name: StringAttribute &
-      SetMinMax<{
-        min: 1;
-        max: 50;
-      }>;
-    code: StringAttribute & UniqueAttribute;
-    createdAt: DateTimeAttribute;
-    updatedAt: DateTimeAttribute;
-    createdBy: RelationAttribute<
-      'plugin::i18n.locale',
-      'oneToOne',
-      'admin::user'
-    > &
-      PrivateAttribute;
-    updatedBy: RelationAttribute<
-      'plugin::i18n.locale',
       'oneToOne',
       'admin::user'
     > &
@@ -684,10 +684,10 @@ export interface ApiBookBook extends CollectionTypeSchema {
       'manyToMany',
       'api::book-series.book-series'
     >;
-    versions: RelationAttribute<
+    releases: RelationAttribute<
       'api::book.book',
       'oneToMany',
-      'api::book-version.book-version'
+      'api::book-release.book-release'
     >;
     createdAt: DateTimeAttribute;
     updatedAt: DateTimeAttribute;
@@ -699,6 +699,83 @@ export interface ApiBookBook extends CollectionTypeSchema {
       'api::book.book',
       'oneToMany',
       'api::book.book'
+    >;
+    locale: StringAttribute;
+  };
+}
+
+export interface ApiBookReleaseBookRelease extends CollectionTypeSchema {
+  info: {
+    singularName: 'book-release';
+    pluralName: 'book-releases';
+    displayName: 'BookRelease';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    medium: EnumerationAttribute<
+      ['hardcover', 'paperback', 'ebook', 'audiobook', 'other', 'unknown']
+    > &
+      RequiredAttribute &
+      SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }> &
+      DefaultTo<'unknown'>;
+    publisher: StringAttribute &
+      RequiredAttribute &
+      SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    country: RelationAttribute<
+      'api::book-release.book-release',
+      'manyToOne',
+      'api::country.country'
+    >;
+    notes: RichTextAttribute &
+      SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    releaseCollection: RelationAttribute<
+      'api::book-release.book-release',
+      'manyToOne',
+      'api::release-collection.release-collection'
+    >;
+    book: RelationAttribute<
+      'api::book-release.book-release',
+      'manyToOne',
+      'api::book.book'
+    >;
+    createdAt: DateTimeAttribute;
+    updatedAt: DateTimeAttribute;
+    createdBy: RelationAttribute<
+      'api::book-release.book-release',
+      'oneToOne',
+      'admin::user'
+    > &
+      PrivateAttribute;
+    updatedBy: RelationAttribute<
+      'api::book-release.book-release',
+      'oneToOne',
+      'admin::user'
+    > &
+      PrivateAttribute;
+    localizations: RelationAttribute<
+      'api::book-release.book-release',
+      'oneToMany',
+      'api::book-release.book-release'
     >;
     locale: StringAttribute;
   };
@@ -754,116 +831,6 @@ export interface ApiBookSeriesBookSeries extends CollectionTypeSchema {
   };
 }
 
-export interface ApiBookSetBookSet extends CollectionTypeSchema {
-  info: {
-    singularName: 'book-set';
-    pluralName: 'book-sets';
-    displayName: 'BookSet';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  attributes: {
-    title: StringAttribute & RequiredAttribute;
-    bookVersions: RelationAttribute<
-      'api::book-set.book-set',
-      'oneToMany',
-      'api::book-version.book-version'
-    >;
-    createdAt: DateTimeAttribute;
-    updatedAt: DateTimeAttribute;
-    createdBy: RelationAttribute<
-      'api::book-set.book-set',
-      'oneToOne',
-      'admin::user'
-    > &
-      PrivateAttribute;
-    updatedBy: RelationAttribute<
-      'api::book-set.book-set',
-      'oneToOne',
-      'admin::user'
-    > &
-      PrivateAttribute;
-  };
-}
-
-export interface ApiBookVersionBookVersion extends CollectionTypeSchema {
-  info: {
-    singularName: 'book-version';
-    pluralName: 'book-versions';
-    displayName: 'BookVersion';
-    description: '';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  pluginOptions: {
-    i18n: {
-      localized: true;
-    };
-  };
-  attributes: {
-    medium: EnumerationAttribute<
-      ['hardcover', 'paperback', 'ebook', 'audiobook', 'other', 'unknown']
-    > &
-      RequiredAttribute &
-      SetPluginOptions<{
-        i18n: {
-          localized: false;
-        };
-      }> &
-      DefaultTo<'unknown'>;
-    publisher: StringAttribute &
-      RequiredAttribute &
-      SetPluginOptions<{
-        i18n: {
-          localized: false;
-        };
-      }>;
-    country: RelationAttribute<
-      'api::book-version.book-version',
-      'manyToOne',
-      'api::country.country'
-    >;
-    notes: RichTextAttribute &
-      SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    bookSet: RelationAttribute<
-      'api::book-version.book-version',
-      'manyToOne',
-      'api::book-set.book-set'
-    >;
-    book: RelationAttribute<
-      'api::book-version.book-version',
-      'manyToOne',
-      'api::book.book'
-    >;
-    createdAt: DateTimeAttribute;
-    updatedAt: DateTimeAttribute;
-    createdBy: RelationAttribute<
-      'api::book-version.book-version',
-      'oneToOne',
-      'admin::user'
-    > &
-      PrivateAttribute;
-    updatedBy: RelationAttribute<
-      'api::book-version.book-version',
-      'oneToOne',
-      'admin::user'
-    > &
-      PrivateAttribute;
-    localizations: RelationAttribute<
-      'api::book-version.book-version',
-      'oneToMany',
-      'api::book-version.book-version'
-    >;
-    locale: StringAttribute;
-  };
-}
-
 export interface ApiCountryCountry extends CollectionTypeSchema {
   info: {
     singularName: 'country';
@@ -885,10 +852,10 @@ export interface ApiCountryCountry extends CollectionTypeSchema {
       'manyToMany',
       'api::book.book'
     >;
-    filmVersions: RelationAttribute<
+    filmReleases: RelationAttribute<
       'api::country.country',
       'oneToMany',
-      'api::film-version.film-version'
+      'api::film-release.film-release'
     >;
     alpha2Code: StringAttribute &
       RequiredAttribute &
@@ -902,10 +869,10 @@ export interface ApiCountryCountry extends CollectionTypeSchema {
         minLength: 3;
         maxLength: 3;
       }>;
-    bookVersions: RelationAttribute<
+    bookReleases: RelationAttribute<
       'api::country.country',
       'oneToMany',
-      'api::book-version.book-version'
+      'api::book-release.book-release'
     >;
     createdAt: DateTimeAttribute;
     updatedAt: DateTimeAttribute;
@@ -1021,10 +988,10 @@ export interface ApiFilmFilm extends CollectionTypeSchema {
       'manyToMany',
       'api::genre.genre'
     >;
-    versions: RelationAttribute<
+    releases: RelationAttribute<
       'api::film.film',
       'oneToMany',
-      'api::film-version.film-version'
+      'api::film-release.film-release'
     >;
     createdAt: DateTimeAttribute;
     updatedAt: DateTimeAttribute;
@@ -1036,6 +1003,127 @@ export interface ApiFilmFilm extends CollectionTypeSchema {
       'api::film.film',
       'oneToMany',
       'api::film.film'
+    >;
+    locale: StringAttribute;
+  };
+}
+
+export interface ApiFilmReleaseFilmRelease extends CollectionTypeSchema {
+  info: {
+    singularName: 'film-release';
+    pluralName: 'film-releases';
+    displayName: 'FilmRelease';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    medium: EnumerationAttribute<
+      [
+        'uhdbluray',
+        'bluray',
+        'hddvd',
+        'dvd',
+        'tv',
+        'vod',
+        'ld',
+        'vcd',
+        'vhs',
+        'other',
+        'unknown'
+      ]
+    > &
+      RequiredAttribute &
+      SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }> &
+      DefaultTo<'unknown'>;
+    label: StringAttribute &
+      RequiredAttribute &
+      SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    country: RelationAttribute<
+      'api::film-release.film-release',
+      'manyToOne',
+      'api::country.country'
+    >;
+    notes: RichTextAttribute &
+      SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    packaging: EnumerationAttribute<
+      [
+        'softcase',
+        'digipack',
+        'hardbox',
+        'insert',
+        'metalpak',
+        'mediabook',
+        'steelbook',
+        'tinbox',
+        'other',
+        'unknown'
+      ]
+    > &
+      RequiredAttribute &
+      SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }> &
+      DefaultTo<'unknown'>;
+    edition: StringAttribute &
+      SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    releaseCollection: RelationAttribute<
+      'api::film-release.film-release',
+      'manyToOne',
+      'api::release-collection.release-collection'
+    >;
+    film: RelationAttribute<
+      'api::film-release.film-release',
+      'manyToOne',
+      'api::film.film'
+    >;
+    rating: RelationAttribute<
+      'api::film-release.film-release',
+      'manyToOne',
+      'api::rating.rating'
+    >;
+    createdAt: DateTimeAttribute;
+    updatedAt: DateTimeAttribute;
+    createdBy: RelationAttribute<
+      'api::film-release.film-release',
+      'oneToOne',
+      'admin::user'
+    > &
+      PrivateAttribute;
+    updatedBy: RelationAttribute<
+      'api::film-release.film-release',
+      'oneToOne',
+      'admin::user'
+    > &
+      PrivateAttribute;
+    localizations: RelationAttribute<
+      'api::film-release.film-release',
+      'oneToMany',
+      'api::film-release.film-release'
     >;
     locale: StringAttribute;
   };
@@ -1086,161 +1174,6 @@ export interface ApiFilmSeriesFilmSeries extends CollectionTypeSchema {
       'api::film-series.film-series',
       'oneToMany',
       'api::film-series.film-series'
-    >;
-    locale: StringAttribute;
-  };
-}
-
-export interface ApiFilmSetFilmSet extends CollectionTypeSchema {
-  info: {
-    singularName: 'film-set';
-    pluralName: 'film-sets';
-    displayName: 'FilmSet';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  attributes: {
-    title: StringAttribute & RequiredAttribute;
-    filmVersions: RelationAttribute<
-      'api::film-set.film-set',
-      'oneToMany',
-      'api::film-version.film-version'
-    >;
-    createdAt: DateTimeAttribute;
-    updatedAt: DateTimeAttribute;
-    createdBy: RelationAttribute<
-      'api::film-set.film-set',
-      'oneToOne',
-      'admin::user'
-    > &
-      PrivateAttribute;
-    updatedBy: RelationAttribute<
-      'api::film-set.film-set',
-      'oneToOne',
-      'admin::user'
-    > &
-      PrivateAttribute;
-  };
-}
-
-export interface ApiFilmVersionFilmVersion extends CollectionTypeSchema {
-  info: {
-    singularName: 'film-version';
-    pluralName: 'film-versions';
-    displayName: 'FilmVersion';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  pluginOptions: {
-    i18n: {
-      localized: true;
-    };
-  };
-  attributes: {
-    medium: EnumerationAttribute<
-      [
-        'uhdbluray',
-        'bluray',
-        'hddvd',
-        'dvd',
-        'tv',
-        'vod',
-        'ld',
-        'vcd',
-        'vhs',
-        'other',
-        'unknown'
-      ]
-    > &
-      RequiredAttribute &
-      SetPluginOptions<{
-        i18n: {
-          localized: false;
-        };
-      }> &
-      DefaultTo<'unknown'>;
-    label: StringAttribute &
-      RequiredAttribute &
-      SetPluginOptions<{
-        i18n: {
-          localized: false;
-        };
-      }>;
-    country: RelationAttribute<
-      'api::film-version.film-version',
-      'manyToOne',
-      'api::country.country'
-    >;
-    notes: RichTextAttribute &
-      SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    packaging: EnumerationAttribute<
-      [
-        'softcase',
-        'digipack',
-        'hardbox',
-        'insert',
-        'metalpak',
-        'mediabook',
-        'steelbook',
-        'tinbox',
-        'other',
-        'unknown'
-      ]
-    > &
-      RequiredAttribute &
-      SetPluginOptions<{
-        i18n: {
-          localized: false;
-        };
-      }> &
-      DefaultTo<'unknown'>;
-    edition: StringAttribute &
-      SetPluginOptions<{
-        i18n: {
-          localized: false;
-        };
-      }>;
-    filmSet: RelationAttribute<
-      'api::film-version.film-version',
-      'manyToOne',
-      'api::film-set.film-set'
-    >;
-    film: RelationAttribute<
-      'api::film-version.film-version',
-      'manyToOne',
-      'api::film.film'
-    >;
-    rating: RelationAttribute<
-      'api::film-version.film-version',
-      'manyToOne',
-      'api::rating.rating'
-    >;
-    createdAt: DateTimeAttribute;
-    updatedAt: DateTimeAttribute;
-    publishedAt: DateTimeAttribute;
-    createdBy: RelationAttribute<
-      'api::film-version.film-version',
-      'oneToOne',
-      'admin::user'
-    > &
-      PrivateAttribute;
-    updatedBy: RelationAttribute<
-      'api::film-version.film-version',
-      'oneToOne',
-      'admin::user'
-    > &
-      PrivateAttribute;
-    localizations: RelationAttribute<
-      'api::film-version.film-version',
-      'oneToMany',
-      'api::film-version.film-version'
     >;
     locale: StringAttribute;
   };
@@ -1332,28 +1265,28 @@ export interface ApiMyBookMyBook extends CollectionTypeSchema {
   };
 }
 
-export interface ApiMyBookVersionMyBookVersion extends CollectionTypeSchema {
+export interface ApiMyBookReleaseMyBookRelease extends CollectionTypeSchema {
   info: {
-    singularName: 'my-book-version';
-    pluralName: 'my-book-versions';
-    displayName: 'MyBookVersion';
+    singularName: 'my-book-release';
+    pluralName: 'my-book-releases';
+    displayName: 'MyBookRelease';
     description: '';
   };
   options: {
     draftAndPublish: false;
   };
   attributes: {
-    bookVersion: RelationAttribute<
-      'api::my-book-version.my-book-version',
+    bookRelease: RelationAttribute<
+      'api::my-book-release.my-book-release',
       'oneToOne',
-      'api::book-version.book-version'
+      'api::book-release.book-release'
     >;
     buyingPrice: DecimalAttribute;
     currentValue: DecimalAttribute;
     didRead: BooleanAttribute & DefaultTo<false>;
     wantToRead: BooleanAttribute & DefaultTo<false>;
     user: RelationAttribute<
-      'api::my-book-version.my-book-version',
+      'api::my-book-release.my-book-release',
       'manyToOne',
       'plugin::users-permissions.user'
     >;
@@ -1361,13 +1294,13 @@ export interface ApiMyBookVersionMyBookVersion extends CollectionTypeSchema {
     createdAt: DateTimeAttribute;
     updatedAt: DateTimeAttribute;
     createdBy: RelationAttribute<
-      'api::my-book-version.my-book-version',
+      'api::my-book-release.my-book-release',
       'oneToOne',
       'admin::user'
     > &
       PrivateAttribute;
     updatedBy: RelationAttribute<
-      'api::my-book-version.my-book-version',
+      'api::my-book-release.my-book-release',
       'oneToOne',
       'admin::user'
     > &
@@ -1421,33 +1354,33 @@ export interface ApiMyFilmMyFilm extends CollectionTypeSchema {
   };
 }
 
-export interface ApiMyFilmVersionMyFilmVersion extends CollectionTypeSchema {
+export interface ApiMyFilmReleaseMyFilmRelease extends CollectionTypeSchema {
   info: {
-    singularName: 'my-film-version';
-    pluralName: 'my-film-versions';
-    displayName: 'MyFilmVersion';
+    singularName: 'my-film-release';
+    pluralName: 'my-film-releases';
+    displayName: 'MyFilmRelease';
     description: '';
   };
   options: {
     draftAndPublish: false;
   };
   attributes: {
-    filmVersion: RelationAttribute<
-      'api::my-film-version.my-film-version',
+    filmRelease: RelationAttribute<
+      'api::my-film-release.my-film-release',
       'oneToOne',
-      'api::film-version.film-version'
+      'api::film-release.film-release'
     >;
     buyingPrice: DecimalAttribute;
     currentValue: DecimalAttribute;
     didWatch: BooleanAttribute & DefaultTo<false>;
     wantToWatch: BooleanAttribute & DefaultTo<false>;
     position: RelationAttribute<
-      'api::my-film-version.my-film-version',
+      'api::my-film-release.my-film-release',
       'oneToOne',
       'api::my-position.my-position'
     >;
     user: RelationAttribute<
-      'api::my-film-version.my-film-version',
+      'api::my-film-release.my-film-release',
       'manyToOne',
       'plugin::users-permissions.user'
     >;
@@ -1455,13 +1388,13 @@ export interface ApiMyFilmVersionMyFilmVersion extends CollectionTypeSchema {
     createdAt: DateTimeAttribute;
     updatedAt: DateTimeAttribute;
     createdBy: RelationAttribute<
-      'api::my-film-version.my-film-version',
+      'api::my-film-release.my-film-release',
       'oneToOne',
       'admin::user'
     > &
       PrivateAttribute;
     updatedBy: RelationAttribute<
-      'api::my-film-version.my-film-version',
+      'api::my-film-release.my-film-release',
       'oneToOne',
       'admin::user'
     > &
@@ -1554,35 +1487,6 @@ export interface ApiPersonPerson extends CollectionTypeSchema {
   };
 }
 
-export interface ApiPublisherPublisher extends CollectionTypeSchema {
-  info: {
-    singularName: 'publisher';
-    pluralName: 'publishers';
-    displayName: 'Publishers';
-    description: '';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  attributes: {
-    displayName: StringAttribute & RequiredAttribute;
-    createdAt: DateTimeAttribute;
-    updatedAt: DateTimeAttribute;
-    createdBy: RelationAttribute<
-      'api::publisher.publisher',
-      'oneToOne',
-      'admin::user'
-    > &
-      PrivateAttribute;
-    updatedBy: RelationAttribute<
-      'api::publisher.publisher',
-      'oneToOne',
-      'admin::user'
-    > &
-      PrivateAttribute;
-  };
-}
-
 export interface ApiRatingRating extends CollectionTypeSchema {
   info: {
     singularName: 'rating';
@@ -1595,10 +1499,10 @@ export interface ApiRatingRating extends CollectionTypeSchema {
   };
   attributes: {
     title: StringAttribute & RequiredAttribute & UniqueAttribute;
-    filmVersions: RelationAttribute<
+    filmReleases: RelationAttribute<
       'api::rating.rating',
       'oneToMany',
-      'api::film-version.film-version'
+      'api::film-release.film-release'
     >;
     createdAt: DateTimeAttribute;
     updatedAt: DateTimeAttribute;
@@ -1610,6 +1514,45 @@ export interface ApiRatingRating extends CollectionTypeSchema {
       PrivateAttribute;
     updatedBy: RelationAttribute<
       'api::rating.rating',
+      'oneToOne',
+      'admin::user'
+    > &
+      PrivateAttribute;
+  };
+}
+
+export interface ApiReleaseCollectionReleaseCollection
+  extends CollectionTypeSchema {
+  info: {
+    singularName: 'release-collection';
+    pluralName: 'release-collections';
+    displayName: 'ReleaseCollection';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    title: StringAttribute & RequiredAttribute;
+    bookReleases: RelationAttribute<
+      'api::release-collection.release-collection',
+      'oneToMany',
+      'api::book-release.book-release'
+    >;
+    filmReleases: RelationAttribute<
+      'api::release-collection.release-collection',
+      'oneToMany',
+      'api::film-release.film-release'
+    >;
+    createdAt: DateTimeAttribute;
+    updatedAt: DateTimeAttribute;
+    createdBy: RelationAttribute<
+      'api::release-collection.release-collection',
+      'oneToOne',
+      'admin::user'
+    > &
+      PrivateAttribute;
+    updatedBy: RelationAttribute<
+      'api::release-collection.release-collection',
       'oneToOne',
       'admin::user'
     > &
@@ -1671,19 +1614,19 @@ export interface ApiTranslationTranslation extends SingleTypeSchema {
     };
   };
   attributes: {
-    bookVersionMedium: JSONAttribute &
+    bookReleaseMedium: JSONAttribute &
       SetPluginOptions<{
         i18n: {
           localized: true;
         };
       }>;
-    filmVersionMedium: JSONAttribute &
+    filmReleaseMedium: JSONAttribute &
       SetPluginOptions<{
         i18n: {
           localized: true;
         };
       }>;
-    filmVersionPackaging: JSONAttribute &
+    filmReleasePackaging: JSONAttribute &
       SetPluginOptions<{
         i18n: {
           localized: true;
@@ -1722,28 +1665,26 @@ declare global {
       'admin::api-token-permission': AdminApiTokenPermission;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
+      'plugin::i18n.locale': PluginI18NLocale;
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
-      'plugin::i18n.locale': PluginI18NLocale;
       'api::book.book': ApiBookBook;
+      'api::book-release.book-release': ApiBookReleaseBookRelease;
       'api::book-series.book-series': ApiBookSeriesBookSeries;
-      'api::book-set.book-set': ApiBookSetBookSet;
-      'api::book-version.book-version': ApiBookVersionBookVersion;
       'api::country.country': ApiCountryCountry;
       'api::film.film': ApiFilmFilm;
+      'api::film-release.film-release': ApiFilmReleaseFilmRelease;
       'api::film-series.film-series': ApiFilmSeriesFilmSeries;
-      'api::film-set.film-set': ApiFilmSetFilmSet;
-      'api::film-version.film-version': ApiFilmVersionFilmVersion;
       'api::genre.genre': ApiGenreGenre;
       'api::my-book.my-book': ApiMyBookMyBook;
-      'api::my-book-version.my-book-version': ApiMyBookVersionMyBookVersion;
+      'api::my-book-release.my-book-release': ApiMyBookReleaseMyBookRelease;
       'api::my-film.my-film': ApiMyFilmMyFilm;
-      'api::my-film-version.my-film-version': ApiMyFilmVersionMyFilmVersion;
+      'api::my-film-release.my-film-release': ApiMyFilmReleaseMyFilmRelease;
       'api::my-position.my-position': ApiMyPositionMyPosition;
       'api::person.person': ApiPersonPerson;
-      'api::publisher.publisher': ApiPublisherPublisher;
       'api::rating.rating': ApiRatingRating;
+      'api::release-collection.release-collection': ApiReleaseCollectionReleaseCollection;
       'api::studio.studio': ApiStudioStudio;
       'api::translation.translation': ApiTranslationTranslation;
     }

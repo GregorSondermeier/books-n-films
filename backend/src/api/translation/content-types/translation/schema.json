@@ -15,7 +15,7 @@
     }
   },
   "attributes": {
-    "bookVersionMedium": {
+    "bookReleaseMedium": {
       "pluginOptions": {
         "i18n": {
           "localized": true
@@ -23,7 +23,7 @@
       },
       "type": "json"
     },
-    "filmVersionMedium": {
+    "filmReleaseMedium": {
       "pluginOptions": {
         "i18n": {
           "localized": true
@@ -31,7 +31,7 @@
       },
       "type": "json"
     },
-    "filmVersionPackaging": {
+    "filmReleasePackaging": {
       "pluginOptions": {
         "i18n": {
           "localized": true

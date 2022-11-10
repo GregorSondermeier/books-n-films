@@ -7,10 +7,10 @@ export const extendUserAttributes = (originalUserAttributes) => ({
     target: 'api::my-book.my-book',
     mappedBy: 'user'
   },
-  myBookVersions: {
+  myBookReleases: {
     type: 'relation',
     relation: 'oneToMany',
-    target: 'api::my-book-version.my-book-version',
+    target: 'api::my-book-release.my-book-release',
     mappedBy: 'user'
   },
   myFilms: {
@@ -19,10 +19,10 @@ export const extendUserAttributes = (originalUserAttributes) => ({
     target: 'api::my-film.my-film',
     mappedBy: 'user'
   },
-  myFilmVersions: {
+  myFilmReleases: {
     type: 'relation',
     relation: 'oneToMany',
-    target: 'api::my-film-version.my-film-version',
+    target: 'api::my-film-release.my-film-release',
     mappedBy: 'user'
   },
   myPositions: {

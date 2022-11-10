@@ -24,10 +24,10 @@
       "target": "api::book.book",
       "inversedBy": "countries"
     },
-    "filmVersions": {
+    "filmReleases": {
       "type": "relation",
       "relation": "oneToMany",
-      "target": "api::film-version.film-version",
+      "target": "api::film-release.film-release",
       "mappedBy": "country"
     },
     "alpha2Code": {
@@ -42,10 +42,10 @@
       "maxLength": 3,
       "minLength": 3
     },
-    "bookVersions": {
+    "bookReleases": {
       "type": "relation",
       "relation": "oneToMany",
-      "target": "api::book-version.book-version",
+      "target": "api::book-release.book-release",
       "mappedBy": "country"
     }
   }

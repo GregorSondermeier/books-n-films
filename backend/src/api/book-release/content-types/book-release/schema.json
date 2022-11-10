@@ -1,0 +1,73 @@
+{
+  "kind": "collectionType",
+  "collectionName": "book_releases",
+  "info": {
+    "singularName": "book-release",
+    "pluralName": "book-releases",
+    "displayName": "BookRelease",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
+  "attributes": {
+    "medium": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      },
+      "type": "enumeration",
+      "enum": [
+        "hardcover",
+        "paperback",
+        "ebook",
+        "audiobook",
+        "other",
+        "unknown"
+      ],
+      "required": true,
+      "default": "unknown"
+    },
+    "publisher": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      },
+      "type": "string",
+      "required": true
+    },
+    "country": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::country.country",
+      "inversedBy": "bookReleases"
+    },
+    "notes": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "richtext"
+    },
+    "releaseCollection": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::release-collection.release-collection",
+      "inversedBy": "bookReleases"
+    },
+    "book": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::book.book",
+      "inversedBy": "releases"
+    }
+  }
+}

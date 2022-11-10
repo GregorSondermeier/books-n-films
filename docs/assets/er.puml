@@ -13,7 +13,7 @@ end note
 interface Book extends Medium {
   authors: Person[];
   seriess: BookSeries[];
-  versions: BookVersion[];
+  releases: BookRelease[];
 }
 
 interface BookSeries {
@@ -21,21 +21,16 @@ interface BookSeries {
   books: Book[];
 }
 
-interface BookSet {
-  title: string;
-  bookVersions: BookVersion[];
-}
-
-interface BookVersion {
+interface BookRelease {
   book: Book;
-  medium: BookVersionMedium;
+  medium: BookReleaseMedium;
   publisher: string;
   country?: Country;
   notes?: RichText;
-  bookSet?: BookSet;
+  releaseCollection?: ReleaseCollection;
 }
 
-enum BookVersionMedium {
+enum BookReleaseMedium {
   hardcover
   paperback
   ebook
@@ -48,9 +43,9 @@ interface Country {
   alpha2Code: string;
   alpha3Code: string;
   books: Book[];
-  bookVersions: BookVersion[];
+  bookReleases: BookRelease[];
   films: Film[];
-  filmVersions: FilmVersion[];
+  filmReleases: FilmRelease[];
 }
 
 interface Film extends Medium {
@@ -60,7 +55,7 @@ interface Film extends Medium {
   productionStudios: Studio[];
   distributionStudios: Studio[];
   seriess: FilmSeries[];
-  versions: FilmVersion[];
+  releases: FilmRelease[];
 }
 
 interface FilmSeries {
@@ -68,24 +63,19 @@ interface FilmSeries {
   films: Film[];
 }
 
-interface FilmSet {
-  title: string;
-  filmVersions: FilmVersion[];
-}
-
-interface FilmVersion {
+interface FilmRelease {
   film: Film;
-  medium: FilmVersionMedium;
+  medium: FilmReleaseMedium;
   label: string;
   country?: Country;
   notes?: RichText;
-  packaging: FilmVersionPackaging;
+  packaging: FilmReleasePackaging;
   edition?: string;
-  filmSet?: FilmSet;
+  releaseCollection?: ReleaseCollection;
   rating?: Rating;
 }
 
-enum FilmVersionMedium {
+enum FilmReleaseMedium {
   uhdbluray
   bluray
   hddvd
@@ -99,7 +89,7 @@ enum FilmVersionMedium {
   unknown
 }
 
-enum FilmVersionPackaging {
+enum FilmReleasePackaging {
   softcase
   digipack
   hardbox
@@ -139,7 +129,7 @@ interface MyBook {
   addedAt?: Date;
 }
 
-interface MyBookVersion {
+interface MyBookRelease {
   book: Book;
   buyingPrice?: number;
   currentValue?: number;
@@ -159,7 +149,7 @@ interface MyFilm {
   addedAt?: Date;
 }
 
-interface MyFilmVersion {
+interface MyFilmRelease {
   film: Film;
   buyingPrice?: number;
   currentValue?: number;
@@ -187,7 +177,13 @@ interface Person {
 
 interface Rating {
   title: string;
-  filmVersions: FilmVersion[];
+  filmReleases: FilmRelease[];
+}
+
+interface ReleaseCollection {
+  title: string;
+  bookReleases: BookRelease[];
+  filmReleases: FilmRelease[];
 }
 
 interface Studio {
@@ -197,9 +193,9 @@ interface Studio {
 }
 
 interface Translation {
-  bookVersionMedium: Record<BookVersionMedium, string>;
-  filmVersionMedium: Record<FilmVersionMedium, string>;
-  filmVersionPackaging: Record<FilmVersionPackaging, string>;
+  bookReleaseMedium: Record<BookReleaseMedium, string>;
+  filmReleaseMedium: Record<FilmReleaseMedium, string>;
+  filmReleasePackaging: Record<FilmReleasePackaging, string>;
 }
 
 interface User {
@@ -212,9 +208,9 @@ interface User {
   confirmed: boolean;
   blocked: boolean;
   myBooks: MyBook[];
-  myBookVersions: MyBookVersion[];
+  myBookReleases: MyBookRelease[];
   myFilms: Film[];
-  myFilmVersions: MyFilmVersion[];
+  myFilmReleases: MyFilmRelease[];
   myPositions: MyPosition[];
 }
 
@@ -225,39 +221,39 @@ Medium }o---o{ Country
 ' Book
 Book }|---o{ Person
 Book }o---o{ BookSeries
-Book }o---o| BookVersion
-BookVersion |o---o{ Country
-BookVersion |o---o{ BookSet
-BookVersion --- BookVersionMedium
+Book }o---o| BookRelease
+BookRelease |o---o{ Country
+BookRelease |o---o{ ReleaseCollection
+BookRelease --- BookReleaseMedium
 
 ' Film
 Film }|---o{ Person
 Film }o---o{ Studio
 Film }o---|{ FilmSeries
-Film }o---|| FilmVersion
-FilmVersion |o---o{ Country
-FilmVersion |o---o{ Rating
-FilmVersion |o---|{ FilmSet
-FilmVersion --- FilmVersionMedium
-FilmVersion --- FilmVersionPackaging
+Film }o---|| FilmRelease
+FilmRelease |o---o{ Country
+FilmRelease |o---o{ Rating
+FilmRelease |o---|{ ReleaseCollection
+FilmRelease --- FilmReleaseMedium
+FilmRelease --- FilmReleasePackaging
 
 ' MyBook
 Book ---|| MyBook
 MyBook |o--- MyPosition
-BookVersion ---|| MyBookVersion
-MyBookVersion |o--- MyPosition
+BookRelease ---|| MyBookRelease
+MyBookRelease |o--- MyPosition
 
 ' MyFilm
 Film ---|| MyFilm
 MyFilm |o--- MyPosition
-FilmVersion ---|| MyFilmVersion
-MyFilmVersion |o--- MyPosition
+FilmRelease ---|| MyFilmRelease
+MyFilmRelease |o--- MyPosition
 
 ' User
 MyBook ||---o{ User
-MyBookVersion ||---o{ User
+MyBookRelease ||---o{ User
 MyFilm ||---o{ User
-MyFilmVersion ||---o{ User
+MyFilmRelease ||---o{ User
 MyPosition ||---o{ User
 
 @enduml

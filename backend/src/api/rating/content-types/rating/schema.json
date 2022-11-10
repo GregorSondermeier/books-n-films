@@ -17,10 +17,10 @@
       "unique": true,
       "required": true
     },
-    "filmVersions": {
+    "filmReleases": {
       "type": "relation",
       "relation": "oneToMany",
-      "target": "api::film-version.film-version",
+      "target": "api::film-release.film-release",
       "mappedBy": "rating"
     }
   }

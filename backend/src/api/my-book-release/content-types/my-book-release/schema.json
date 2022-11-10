@@ -1,0 +1,44 @@
+{
+  "kind": "collectionType",
+  "collectionName": "my_book_releases",
+  "info": {
+    "singularName": "my-book-release",
+    "pluralName": "my-book-releases",
+    "displayName": "MyBookRelease",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "bookRelease": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::book-release.book-release"
+    },
+    "buyingPrice": {
+      "type": "decimal"
+    },
+    "currentValue": {
+      "type": "decimal"
+    },
+    "didRead": {
+      "type": "boolean",
+      "default": false
+    },
+    "wantToRead": {
+      "type": "boolean",
+      "default": false
+    },
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "myBookReleases"
+    },
+    "addedAt": {
+      "type": "date"
+    }
+  }
+}

@@ -92,10 +92,10 @@
       "target": "api::book-series.book-series",
       "inversedBy": "books"
     },
-    "versions": {
+    "releases": {
       "type": "relation",
       "relation": "oneToMany",
-      "target": "api::book-version.book-version",
+      "target": "api::book-release.book-release",
       "mappedBy": "book"
     }
   }
