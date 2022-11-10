@@ -233,7 +233,7 @@ Film }o---|{ FilmSeries
 Film }o---|| FilmRelease
 FilmRelease |o---o{ Country
 FilmRelease |o---o{ Rating
-FilmRelease |o---|{ ReleaseCollection
+FilmRelease |o---o{ ReleaseCollection
 FilmRelease --- FilmReleaseMedium
 FilmRelease --- FilmReleasePackaging
 

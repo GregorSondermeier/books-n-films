@@ -48,16 +48,15 @@ is used to reduce the depth of API responses. There are no `data` and
 
 `/api/books`  
 `/api/book-seriess`  
-`/api/book-sets`  
 `/api/book-releases`  
 `/api/countries`  
 `/api/films`  
 `/api/film-seriess`  
-`/api/film-sets`  
 `/api/film-releases`  
 `/api/genres`  
 `/api/people`  
 `/api/ratings`  
+`/api/release-collections`  
 `/api/studios`  
 `/api/translation`  
 `/api/upload/files`
