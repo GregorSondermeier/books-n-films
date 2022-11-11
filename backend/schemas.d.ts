@@ -1236,7 +1236,7 @@ export interface ApiMyBookMyBook extends CollectionTypeSchema {
       'api::book.book'
     >;
     didRead: BooleanAttribute & DefaultTo<false>;
-    wantToWatch: BooleanAttribute & DefaultTo<false>;
+    wantToRead: BooleanAttribute & DefaultTo<false>;
     position: RelationAttribute<
       'api::my-book.my-book',
       'oneToOne',
@@ -1285,6 +1285,11 @@ export interface ApiMyBookReleaseMyBookRelease extends CollectionTypeSchema {
     currentValue: DecimalAttribute;
     didRead: BooleanAttribute & DefaultTo<false>;
     wantToRead: BooleanAttribute & DefaultTo<false>;
+    position: RelationAttribute<
+      'api::my-book-release.my-book-release',
+      'oneToOne',
+      'api::my-position.my-position'
+    >;
     user: RelationAttribute<
       'api::my-book-release.my-book-release',
       'manyToOne',
