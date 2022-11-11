@@ -21,7 +21,7 @@
       "type": "boolean",
       "default": false
     },
-    "wantToWatch": {
+    "wantToRead": {
       "type": "boolean",
       "default": false
     },
