@@ -1,4 +1,8 @@
 export default ({ env }) => ({
+  'editorjs': {
+    enabled: true,
+  },
+
   'transformer': {
     enabled: true,
     config: {

@@ -16,6 +16,7 @@
     "@strapi/strapi": "4.5.4",
     "lodash": "4.17.21",
     "mysql": "2.18.1",
+    "strapi-plugin-editorjs": "github:GregorSondermeier/strapi-plugin-editorjs",
     "strapi-plugin-transformer": "2.1.1"
   },
   "author": {

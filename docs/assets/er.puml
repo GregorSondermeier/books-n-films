@@ -26,7 +26,7 @@ interface BookRelease {
   medium: BookReleaseMedium;
   publisher: string;
   country?: Country;
-  notes?: RichText;
+  notes?: EditorJsOutputData;
   releaseCollection?: ReleaseCollection;
 }
 
@@ -68,7 +68,7 @@ interface FilmRelease {
   medium: FilmReleaseMedium;
   label: string;
   country?: Country;
-  notes?: RichText;
+  notes?: EditorJsOutputData;
   packaging: FilmReleasePackaging;
   edition?: string;
   releaseCollection?: ReleaseCollection;

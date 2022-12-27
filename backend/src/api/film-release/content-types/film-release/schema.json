@@ -60,7 +60,8 @@
           "localized": true
         }
       },
-      "type": "richtext"
+      "type": "customField",
+      "customField": "plugin::editorjs.editorjs"
     },
     "packaging": {
       "pluginOptions": {
