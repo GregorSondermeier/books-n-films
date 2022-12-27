@@ -11,13 +11,12 @@
     "strapi": "strapi"
   },
   "dependencies": {
-    "@strapi/plugin-i18n": "4.5.0",
-    "@strapi/plugin-users-permissions": "4.5.0",
-    "@strapi/strapi": "4.5.0",
+    "@strapi/plugin-i18n": "4.5.4",
+    "@strapi/plugin-users-permissions": "4.5.4",
+    "@strapi/strapi": "4.5.4",
     "lodash": "4.17.21",
     "mysql": "2.18.1",
-    "strapi-plugin-entity-relationship-chart": "4.1.0",
-    "strapi-plugin-transformer": "2.1.0"
+    "strapi-plugin-transformer": "2.1.1"
   },
   "author": {
     "name": "Gregor Sondermeier"
