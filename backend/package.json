@@ -1,7 +1,7 @@
 {
   "name": "books-n-films-backend",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Strapi backend for the books-n-films application",
   "scripts": {
     "dev": "strapi develop",
@@ -11,13 +11,13 @@
     "strapi": "strapi"
   },
   "dependencies": {
-    "@strapi/plugin-i18n": "4.5.4",
-    "@strapi/plugin-users-permissions": "4.5.4",
-    "@strapi/strapi": "4.5.4",
+    "@strapi/plugin-i18n": "4.6.1",
+    "@strapi/plugin-users-permissions": "4.6.1",
+    "@strapi/strapi": "4.6.1",
     "lodash": "4.17.21",
     "mysql": "2.18.1",
     "strapi-plugin-editorjs": "github:GregorSondermeier/strapi-plugin-editorjs",
-    "strapi-plugin-transformer": "2.1.1"
+    "strapi-plugin-transformer": "2.2.0"
   },
   "author": {
     "name": "Gregor Sondermeier"
