@@ -20,7 +20,8 @@
     "strapi-plugin-transformer": "2.2.0"
   },
   "author": {
-    "name": "Gregor Sondermeier"
+    "name": "Gregor Sondermeier",
+    "email": "gregor.sondermeier.github@gmail.com"
   },
   "contributors": [
     {

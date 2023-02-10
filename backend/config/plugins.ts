@@ -3,6 +3,12 @@ export default ({ env }) => ({
     enabled: true,
   },
 
+  'todos': {
+    enabled: true,
+    resolve: './src/plugins/todos'
+  },
+
+
   'transformer': {
     enabled: true,
     config: {

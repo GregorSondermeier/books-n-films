@@ -1,0 +1,48 @@
+{
+  "name": "todos",
+  "version": "0.1.0",
+  "description": "A simple Strapi plugin to test core router CRUD functionality",
+  "strapi": {
+    "kind": "plugin",
+    "name": "todos",
+    "description": "A simple plugin to test core router CRUD functionality"
+  },
+  "dependencies": {
+    "@strapi/icons": "^1.3.1"
+  },
+  "devDependencies": {
+    "typescript": "4.6.3"
+  },
+  "author": {
+    "name": "Gregor Sondermeier",
+    "email": "gregor.sondermeier.github@gmail.com"
+  },
+  "contributors": [
+    {
+      "name": "Gregor Sondermeier",
+      "email": "gregor.sondermeier.github@gmail.com",
+      "url": "https://github.com/GregorSondermeier"
+    },
+    {
+      "name": "Lisa Friedrich",
+      "email": "lfriedrich41@gmail.com",
+      "url": "https://github.com/lisa-friedrich"
+    }
+  ],
+  "maintainers": [
+    {
+      "name": "Gregor Sondermeier",
+      "email": "gregor.sondermeier.github@gmail.com",
+      "url": "https://github.com/GregorSondermeier"
+    }
+  ],
+  "engines": {
+    "node": ">=14.19.1 <=18.x.x",
+    "npm": ">=6.0.0"
+  },
+  "scripts": {
+    "dev": "tsc -w",
+    "build": "tsc"
+  },
+  "license": "MIT"
+}
