@@ -7,22 +7,21 @@ import { factories } from '@strapi/strapi';
 export default factories.createCoreRouter(
   'api::my-book-release.my-book-release',
   {
-    only: ['find', 'findOne', 'create', 'update', 'delete'],
     config: {
       find: {
-        middlewares: ['global::user-content'],
+        middlewares: ['global::filter-by-user'],
       },
       findOne: {
-        middlewares: ['global::user-content'],
+        policies: ['global::belongs-to-user'],
       },
       create: {
-        middlewares: ['global::user-content'],
+        // @todo write a middleware that adds the user from context into the entity
       },
       update: {
-        middlewares: ['global::user-content'],
+        policies: ['global::belongs-to-user'],
       },
       delete: {
-        middlewares: ['global::user-content'],
+        policies: ['global::belongs-to-user'],
       },
     },
   },
