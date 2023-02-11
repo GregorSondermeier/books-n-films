@@ -1,22 +1,20 @@
-export default ({ env }) => ({
-  'editorjs': {
+export default (/*{ env }*/) => ({
+  editorjs: {
     enabled: true,
   },
 
-  'todos': {
+  todos: {
     enabled: true,
     resolve: './src/plugins/todos'
   },
-
-
-  'transformer': {
+  transformer: {
     enabled: true,
     config: {
       prefix: '/api/',
       responseTransforms: {
         removeAttributesKey: true,
         removeDataKey: true,
-      }
-    }
+      },
+    },
   },
 });

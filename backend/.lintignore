@@ -1,0 +1,11 @@
+# artifacts
+.cache
+.docker
+build
+coverage
+database
+dist
+node_modules
+
+# external code and assets
+public
