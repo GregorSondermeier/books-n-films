@@ -4,4 +4,6 @@
 
 import { factories } from '@strapi/strapi';
 
-export default factories.createCoreRouter('api::release-collection.release-collection');
+export default factories.createCoreRouter(
+  'api::release-collection.release-collection',
+);

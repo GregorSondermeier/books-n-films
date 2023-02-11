@@ -13,12 +13,13 @@ import {
   PasswordAttribute,
   BooleanAttribute,
   EnumerationAttribute,
+  BigIntegerAttribute,
   IntegerAttribute,
   DecimalAttribute,
   SetMinMax,
   SetPluginOptions,
   TextAttribute,
-  RichTextAttribute,
+  CustomField,
   UIDAttribute,
   DateAttribute,
   SingleTypeSchema,
@@ -212,7 +213,7 @@ export interface AdminApiToken extends CollectionTypeSchema {
       'admin::api-token-permission'
     >;
     expiresAt: DateTimeAttribute;
-    lifespan: IntegerAttribute;
+    lifespan: BigIntegerAttribute;
     createdAt: DateTimeAttribute;
     updatedAt: DateTimeAttribute;
     createdBy: RelationAttribute<
@@ -742,7 +743,8 @@ export interface ApiBookReleaseBookRelease extends CollectionTypeSchema {
       'manyToOne',
       'api::country.country'
     >;
-    notes: RichTextAttribute &
+    notes: JSONAttribute &
+      CustomField<'plugin::editorjs.editorjs'> &
       SetPluginOptions<{
         i18n: {
           localized: true;
@@ -1036,7 +1038,7 @@ export interface ApiFilmReleaseFilmRelease extends CollectionTypeSchema {
         'vcd',
         'vhs',
         'other',
-        'unknown'
+        'unknown',
       ]
     > &
       RequiredAttribute &
@@ -1058,7 +1060,8 @@ export interface ApiFilmReleaseFilmRelease extends CollectionTypeSchema {
       'manyToOne',
       'api::country.country'
     >;
-    notes: RichTextAttribute &
+    notes: JSONAttribute &
+      CustomField<'plugin::editorjs.editorjs'> &
       SetPluginOptions<{
         i18n: {
           localized: true;
@@ -1075,7 +1078,7 @@ export interface ApiFilmReleaseFilmRelease extends CollectionTypeSchema {
         'steelbook',
         'tinbox',
         'other',
-        'unknown'
+        'unknown',
       ]
     > &
       RequiredAttribute &
