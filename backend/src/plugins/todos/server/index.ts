@@ -15,7 +15,7 @@ export default {
         info: {
           singularName: 'todo',
           pluralName: 'todos',
-          displayName: 'Todo'
+          displayName: 'Todo',
         },
         options: {
           draftAndPublish: false,
@@ -30,7 +30,7 @@ export default {
             customField: 'plugin::editorjs.editorjs',
           },
           done: {
-            'type': 'boolean',
+            type: 'boolean',
             required: true,
             default: false,
           },
@@ -41,6 +41,7 @@ export default {
   routes: {
     'content-api': {
       type: 'content-api',
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore because strapi typedef seems wrong; core router in plugin doesn't work
       routes: factories.createCoreRouter('plugin::todos.todo').routes,
       // custom routes will work in comparison:

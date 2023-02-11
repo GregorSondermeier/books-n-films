@@ -5,7 +5,7 @@ export default (/*{ env }*/) => ({
 
   todos: {
     enabled: true,
-    resolve: './src/plugins/todos'
+    resolve: './src/plugins/todos',
   },
   transformer: {
     enabled: true,
