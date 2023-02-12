@@ -15,14 +15,17 @@
     "eslint:fix": "eslint --ignore-path .lintignore --ext .ts,.tsx,.js,.jsx --max-warnings 0 --fix ./config ./src",
     "ts-generate": "strapi ts:generate-types --verbose",
     "strapi": "strapi",
-    "strapi:export": "strapi export --file backups/export_$(date +\"%Y-%m-%d_%H-%M-%S\")",
-    "strapi:import": "strapi import"
+    "strapi:export": "strapi export --file backups/strapi_export_$(date +\"%Y-%m-%d_%H-%M-%S\")",
+    "strapi:import": "strapi import",
+    "db:export": "node ./scripts/db_export.js",
+    "db:import": ""
   },
   "dependencies": {
     "@strapi/plugin-i18n": "4.6.1",
     "@strapi/plugin-users-permissions": "4.6.1",
     "@strapi/strapi": "4.6.1",
     "@strapi/utils": "4.6.1",
+    "date-fns": "2.29.3",
     "lodash": "4.17.21",
     "mysql": "2.18.1",
     "strapi-plugin-editorjs": "github:GregorSondermeier/strapi-plugin-editorjs",
