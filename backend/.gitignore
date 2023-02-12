@@ -106,10 +106,11 @@ coverage
 # Strapi
 ############################
 
-.env
-license.txt
-exports
 *.cache
-dist
-build
+.env
 .strapi-updater.json
+backups
+build
+dist
+exports
+license.txt

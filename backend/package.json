@@ -14,7 +14,9 @@
     "eslint": "eslint --ignore-path .lintignore --ext .ts,.tsx,.js,.jsx --max-warnings 0 ./config ./src",
     "eslint:fix": "eslint --ignore-path .lintignore --ext .ts,.tsx,.js,.jsx --max-warnings 0 --fix ./config ./src",
     "ts-generate": "strapi ts:generate-types --verbose",
-    "strapi": "strapi"
+    "strapi": "strapi",
+    "strapi:export": "strapi export --file backups/export_$(date +\"%Y-%m-%d_%H-%M-%S\")",
+    "strapi:import": "strapi import"
   },
   "dependencies": {
     "@strapi/plugin-i18n": "4.6.1",
