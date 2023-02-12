@@ -15,7 +15,8 @@
     "book": {
       "type": "relation",
       "relation": "oneToOne",
-      "target": "api::book.book"
+      "target": "api::book.book",
+      "required": true
     },
     "didRead": {
       "type": "boolean",
@@ -34,7 +35,8 @@
       "type": "relation",
       "relation": "manyToOne",
       "target": "plugin::users-permissions.user",
-      "inversedBy": "myBooks"
+      "inversedBy": "myBooks",
+      "required": true
     },
     "addedAt": {
       "type": "date"

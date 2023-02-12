@@ -103,7 +103,8 @@
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::film.film",
-      "inversedBy": "releases"
+      "inversedBy": "releases",
+      "required": true
     },
     "rating": {
       "type": "relation",

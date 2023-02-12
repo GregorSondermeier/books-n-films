@@ -15,7 +15,8 @@
     "bookRelease": {
       "type": "relation",
       "relation": "oneToOne",
-      "target": "api::book-release.book-release"
+      "target": "api::book-release.book-release",
+      "required": true
     },
     "buyingPrice": {
       "type": "decimal"
@@ -40,7 +41,8 @@
       "type": "relation",
       "relation": "manyToOne",
       "target": "plugin::users-permissions.user",
-      "inversedBy": "myBookReleases"
+      "inversedBy": "myBookReleases",
+      "required": true
     },
     "addedAt": {
       "type": "date"

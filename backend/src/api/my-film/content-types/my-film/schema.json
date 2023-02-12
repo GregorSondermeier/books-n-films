@@ -15,7 +15,8 @@
     "film": {
       "type": "relation",
       "relation": "oneToOne",
-      "target": "api::film.film"
+      "target": "api::film.film",
+      "required": true
     },
     "didWatch": {
       "type": "boolean",
@@ -34,7 +35,8 @@
       "type": "relation",
       "relation": "manyToOne",
       "target": "plugin::users-permissions.user",
-      "inversedBy": "myFilms"
+      "inversedBy": "myFilms",
+      "required": true
     },
     "addedAt": {
       "type": "date"
