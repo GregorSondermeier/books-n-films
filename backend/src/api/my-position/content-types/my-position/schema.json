@@ -20,7 +20,8 @@
       "type": "relation",
       "relation": "manyToOne",
       "target": "plugin::users-permissions.user",
-      "inversedBy": "myPositions"
+      "inversedBy": "myPositions",
+      "required": true
     }
   }
 }

@@ -1,5 +1,5 @@
 import { Strapi } from '@strapi/strapi';
-import { PolicyContext } from '@strapi/strapi/lib/core/registries/policies';
+import { PolicyContext as StrapiPolicyContext } from '@strapi/strapi/lib/core/registries/policies';
 import { errors } from '@strapi/utils';
 
 /**
@@ -25,11 +25,9 @@ import { errors } from '@strapi/utils';
  *   // for core routers:
  *   export default factories.createCoreRouter(contentTypeUid, {
  *     config: {
- *       find: { ... },
  *       findOne: {
  *         policies: ['global::belongs-to-user'],
  *       },
- *       create: { ... },
  *       update: {
  *         policies: ['global::belongs-to-user'],
  *       },
@@ -41,45 +39,45 @@ import { errors } from '@strapi/utils';
  *
  *   // for custom routers:
  *   export default {
- *     routes: {
- *       method: 'GET,
- *       path: '/todos/:todoId',
- *       handler: 'todo.findOne',
- *       config: {
- *         policies: [
- *           {
- *             name: 'global::belongs-to-user'
- *             config: {
- *               contentTypeUid: 'api::todo.todo',
- *               idParamName: 'todoId',
- *               userRelationName: 'assignee',
+ *     routes: [
+ *       {
+ *         method: 'GET,
+ *         path: '/todos/:todoId',
+ *         handler: 'todo.findOne',
+ *         config: {
+ *           policies: [
+ *             {
+ *               name: 'global::belongs-to-user'
+ *               config: {
+ *                 contentTypeUid: 'api::todo.todo',
+ *                 idParamName: 'todoId',
+ *                 userRelationName: 'assignee',
+ *               },
  *             },
- *           },
- *         ],
+ *           ],
+ *         },
  *       },
- *     },
+ *     ],
  *   };
  */
 export default async (
-  ctx: ThisPolicyContext,
-  {
-    contentTypeUid: inputContentTypeUid,
-    idParamName = 'id',
-    userRelationName = 'user',
-  }: ThisPolicyConfig,
+  ctx: PolicyContext,
+  config: PolicyConfig,
   { strapi }: { strapi: Strapi },
 ) => {
   const userId = ctx.state.user.id;
   if (!userId) {
     strapi.log.warn(
-      `global::belongs-to-user policy can only work with 'Authenticated' requests.`,
+      `global::belongs-to-user policy detected no user. It can only work with 'Authenticated' requests.`,
     );
 
     return true;
   }
 
+  const idParamName = config.idParamName || 'id';
+  const userRelationName = config.userRelationName || 'user';
   const contentTypeUid =
-    inputContentTypeUid || detectContentTypeUid(ctx.state.route.handler);
+    config.contentTypeUid || detectContentTypeUid(ctx.state.route.handler);
   if (!contentTypeUid) {
     strapi.log.warn(
       'global::belongs-to-user policy was not able to detect the contentTypeUid from the route handler.',
@@ -105,21 +103,32 @@ export default async (
     return true;
   }
 
-  const count = await strapi.entityService.count(contentTypeUid, {
+  const entityCount = await strapi.entityService.count(contentTypeUid, {
     filters: {
       id: entityId,
       [userRelationName]: { id: userId },
     },
   });
 
-  if (!count) {
-    throw new errors.UnauthorizedError();
+  if (entityCount) {
+    return true;
   }
 
-  return true;
+  throw new errors.ForbiddenError();
 };
 
-type ThisPolicyContext = PolicyContext & {
+/**
+ * @example:
+ *   * 'api::todo.todo.find' => 'api::todo.todo'
+ */
+const detectContentTypeUid = (routeHandler: string): string | undefined => {
+  const regex = /\w+::[\w-]+\.[\w-]+/;
+  const matches = routeHandler.match(regex);
+
+  return matches ? matches[0] : undefined;
+};
+
+type PolicyContext = StrapiPolicyContext & {
   params: Record<string, string>;
   state: {
     route: {
@@ -131,15 +140,8 @@ type ThisPolicyContext = PolicyContext & {
   };
 };
 
-interface ThisPolicyConfig {
+interface PolicyConfig {
   contentTypeUid?: string;
   idParamName?: string;
   userRelationName?: string;
 }
-
-const detectContentTypeUid = (routeHandler: string): string | undefined => {
-  const contentTypeUidRegex = /\w+::[\w-]+\.[\w-]+/;
-  const contentTypeUidMatches = routeHandler.match(contentTypeUidRegex);
-
-  return contentTypeUidMatches ? contentTypeUidMatches[0] : undefined;
-};

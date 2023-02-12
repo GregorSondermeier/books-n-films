@@ -68,7 +68,8 @@
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::book.book",
-      "inversedBy": "releases"
+      "inversedBy": "releases",
+      "required": true
     }
   }
 }

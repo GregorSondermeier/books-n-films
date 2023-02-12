@@ -15,7 +15,8 @@
     "filmRelease": {
       "type": "relation",
       "relation": "oneToOne",
-      "target": "api::film-release.film-release"
+      "target": "api::film-release.film-release",
+      "required": true
     },
     "buyingPrice": {
       "type": "decimal"
@@ -40,7 +41,8 @@
       "type": "relation",
       "relation": "manyToOne",
       "target": "plugin::users-permissions.user",
-      "inversedBy": "myFilmReleases"
+      "inversedBy": "myFilmReleases",
+      "required": true
     },
     "addedAt": {
       "type": "date"

@@ -15,7 +15,7 @@ export default factories.createCoreRouter(
         policies: ['global::belongs-to-user'],
       },
       create: {
-        // @todo write a middleware that adds the user from context into the entity
+        middlewares: ['global::set-user'],
       },
       update: {
         policies: ['global::belongs-to-user'],
